@@ -764,7 +764,7 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
   /* ---------- input: one gesture = one page ---------- */
   document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); go(+el.dataset.go); }));
   let acc = 0, lockUntil = 0;
-  const galOpen = () => !document.getElementById('gal').hidden || !document.getElementById('studio').hidden;
+  const galOpen = () => { const g=document.getElementById('gal'), st=document.getElementById('studio'); return (g && !g.hidden) || (st && !st.hidden); };
   addEventListener('wheel', e => {
     if (galOpen()) return;
     e.preventDefault();

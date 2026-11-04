@@ -722,7 +722,7 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
   function setMode(m, initial){
     mode = m; const night = m==='night';
     document.body.classList.toggle('night', night); document.body.classList.toggle('day', !night);
-    focusBtn.setAttribute('aria-pressed', night); modeTxt.setAttribute('aria-pressed', night);
+    focusBtn.setAttribute('aria-pressed', night); 
     document.querySelectorAll('.sw').forEach(img => { img.src = img.dataset[night?'n':'d']; img.alt = img.dataset[night?'an':'ad']; });
     document.querySelectorAll('[data-d][data-n]:not(img)').forEach(el => el.textContent = el.dataset[night?'n':'d']);
     document.querySelectorAll('.p').forEach(p => p.classList.toggle('hot', p.dataset.k === (night?'event':'monthly')));
@@ -917,6 +917,7 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
   });
 
   const sb = document.getElementById('studioBtn'); if (sb) sb.hidden = true;
+  try { if (localStorage.getItem('sb-dwtgplrqvzpngvwbgckj-auth-token')){ const l = document.querySelector('.lgi'); if (l) l.textContent = 'My Studio'; } } catch(_){}
   fetch('https://dwtgplrqvzpngvwbgckj.supabase.co/rest/v1/site_text?select=key,value', {headers:{apikey:'sb_publishable_hbN4NKVktu2IX0bDab71Fg_kgmNZQYR'}})
     .then(r => r.ok ? r.json() : []).then(rows => {
       const m = {}; (rows || []).forEach(r => { m[r.key] = r.value; });

@@ -109,7 +109,7 @@ body.night .mbtn.n{color:var(--magenta)}
 .st-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:rgba(18,11,29,.94);border-bottom:1px solid #2a1f3e}
 .st-x{all:unset;cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);color:#efe6ff}
 .st-x:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
-.st-title{font:800 18px var(--display,system-ui)}
+.st-title{margin:0;font:800 18px var(--display,system-ui)}
 .st-note{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bfaedd}
 /* ---------- business galleries ---------- */
 .gal{position:fixed;inset:0;z-index:80;background:rgba(10,5,20,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow-y:auto;overscroll-behavior:contain;color:#f4eefb;font-family:var(--body)}
@@ -385,11 +385,9 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
 .au-card{width:min(400px,100%);display:grid;gap:14px;background:#1d1529;border:1px solid #3a2b55;border-radius:22px;padding:26px 22px}
 .au-k{margin:0;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#b99bff}
 .au-card h1{margin:0;font:800 30px/1.05 var(--display,system-ui);letter-spacing:-.02em}
-.au-card label{display:grid;gap:6px;font-size:14px;font-weight:600;color:#ffffff}
+.au-card label{display:grid;gap:6px;font-size:14px;font-weight:600}
 .au-card label[hidden]{display:none}
-.au-card input{font:500 16px var(--body);color:#160a2a!important;-webkit-text-fill-color:#160a2a;background:#ffffff!important;border:1px solid #a77bff;border-radius:12px;padding:12px 13px}
-.au-card input::placeholder{color:#6b5a8a}
-.au-card input:-webkit-autofill{-webkit-box-shadow:0 0 0 40px #fff inset;-webkit-text-fill-color:#160a2a}
+.au-card input{font:500 16px var(--body);color:#f4eefb;background:#120b1d;border:1px solid #4a3870;border-radius:12px;padding:12px 13px}
 .au-card input:focus{outline:2px solid var(--violet);outline-offset:1px}
 .au-go{cursor:pointer;font:700 15px var(--body);padding:13px;border:0;border-radius:999px;background:#a77bff;color:#160a2a}
 .au-go:disabled{opacity:.6;cursor:wait}
@@ -442,7 +440,7 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
 .wd-row{display:grid;gap:6px}
 .wd-l{font-size:13px;font-weight:600;color:#ddd0f2;display:flex;gap:8px;align-items:center}
 .wd-l em{font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:#5be3a4}
-.wd-row input,.wd-row textarea{font:500 16px/1.45 var(--body);color:#160a2a!important;-webkit-text-fill-color:#160a2a;background:#ffffff!important;border:1px solid #4a3870;border-radius:12px;padding:10px 12px;resize:vertical}
+.wd-row input,.wd-row textarea{font:500 16px/1.45 var(--body);color:#f4eefb;background:#120b1d;border:1px solid #4a3870;border-radius:12px;padding:10px 12px;resize:vertical}
 .wd-row input:focus,.wd-row textarea:focus{outline:2px solid var(--violet);outline-offset:1px}
 .wd-reset{justify-self:start;cursor:pointer;font:600 12px var(--body);padding:5px 10px;border-radius:999px;border:1px solid #4a3870;background:transparent;color:#cbb3ff}
 .si-reset{cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid #4a3870;background:transparent;color:#efe6ff}
@@ -451,7 +449,7 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
 </style>
 </head>
 <body class="day">
-<div class="au" id="auth" hidden>
+<div class="au" id="auth" role="main" hidden>
   <form class="au-card" id="auForm" novalidate>
     <p class="au-k">NINETYFIFTH · Clients &amp; Studio</p>
     <h1 id="auTitle">Sign in</h1>
@@ -467,11 +465,11 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
     <a class="au-back" href="../">&larr; Back to the website</a>
   </form>
 </div>
-<div class="nope" id="noAccess" hidden><div class="au-card" style="text-align:left"><p class="au-k">NINETYFIFTH · Client portal</p><h1>Welcome!</h1><p style="margin:0;color:#ddd0f2;line-height:1.5">Your client portal is being set up. Amanda will email you when your photos are ready to pick, along with your contract and project dates.</p><p style="margin:0;font-size:13px;color:#b3a4cc">Signed in as <b id="noEmail"></b></p><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="au-go" style="text-decoration:none;text-align:center;padding:11px 18px" href="../">Back to the website</a><button type="button" id="noSignOut">Sign out</button></div></div></div>
-<div class="studio" id="studio" aria-label="Amanda's Studio" hidden>
+<div class="nope" id="noAccess" role="main" hidden><div class="au-card" style="text-align:left"><p class="au-k">NINETYFIFTH · Client portal</p><h1>Welcome!</h1><p style="margin:0;color:#ddd0f2;line-height:1.5">Your client portal is being set up. Amanda will email you when your photos are ready to pick, along with your contract and project dates.</p><p style="margin:0;font-size:13px;color:#b3a4cc">Signed in as <b id="noEmail"></b></p><div style="display:flex;gap:10px;flex-wrap:wrap"><a class="au-go" style="text-decoration:none;text-align:center;padding:11px 18px" href="../">Back to the website</a><button type="button" id="noSignOut">Sign out</button></div></div></div>
+<div class="studio" id="studio" role="main" aria-label="Amanda's Studio" hidden>
   <div class="st-bar">
     <a class="st-x" href="../">&larr; Website</a>
-    <span class="st-title">Amanda's Studio</span>
+    <h1 class="st-title">Amanda's Studio</h1>
     <nav class="st-tabs" aria-label="Studio">
       <button type="button" class="st-tab" data-view="photos" aria-pressed="true">Photos</button>
       <button type="button" class="st-tab" data-view="site" aria-pressed="false">Main page photos</button>

@@ -1,0 +1,980 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NINETYFIFTH Visuals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Figtree:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+/* Variation E: Purple Glass. Every page lives inside the lens glass. */
+:root{
+  color-scheme:dark;
+  --bg:#130a22; --bar-ink:#e9ddff; --bar-muted:#a996cc; --edge:#3b2a58;
+  --violet:#a77bff; --magenta:#ff2e97; --teal:#26e5ff;
+  --display:"Bricolage Grotesque","Arial Black",system-ui,sans-serif;
+  --body:"Figtree",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --gd:min(86vmin, calc(100vh - 112px), calc(100vw - 32px));
+}
+/* glass themes */
+body.day{--gbg:radial-gradient(circle at 38% 30%,#ffffff 0,#f1e9ff 40%,#ddccff 100%);--ink:#24104a;--muted:#5a4a80;--acc:#6d3df0;--acc-ink:#fff;--acc2:#a77bff;--panel:rgba(255,255,255,.62);--line:#cbb8f2;--wash:radial-gradient(circle,rgba(246,240,255,.9) 0,rgba(240,232,255,.8) 45%,rgba(214,196,255,.55) 100%);--glow:none}
+body.night{--gbg:radial-gradient(circle at 40% 30%,#24113f 0,#120822 55%,#07030f 100%);--ink:#f7f0ff;--muted:#c0aee0;--acc:#ff2e97;--acc-ink:#1a0414;--acc2:#26e5ff;--panel:rgba(255,255,255,.06);--line:#41295f;--wash:radial-gradient(circle,rgba(12,5,24,.82) 0,rgba(12,5,24,.7) 50%,rgba(8,3,16,.5) 100%);--glow:0 0 18px rgba(255,46,151,.7)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:var(--bg);color:var(--bar-ink);overscroll-behavior:none}
+body{font:16px/1.45 var(--body);touch-action:none}
+img{max-width:100%;display:block}
+button{font:inherit}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:6px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+#lens,#blades{position:fixed;inset:0;width:100%;height:100%;pointer-events:none}
+#lens{z-index:1}
+#blades{z-index:20}
+
+/* top bar */
+.bar{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;align-items:center;gap:10px;
+  padding:calc(12px + env(safe-area-inset-top,0px)) max(16px, env(safe-area-inset-right,0px)) 0 max(16px, env(safe-area-inset-left,0px));pointer-events:none}
+.bar>*{pointer-events:auto}
+.back{font:500 12px var(--body);text-decoration:none;color:var(--bar-muted);background:rgba(30,18,50,.85);border:1px solid var(--edge);padding:6px 11px;border-radius:999px;white-space:nowrap}
+.back:hover{color:var(--bar-ink)}
+.mark{font:800 18px var(--display);letter-spacing:-.01em;color:var(--bar-ink);text-decoration:none;white-space:nowrap}
+.mark span{color:var(--violet)}
+.sp{flex:1}
+.modetxt{all:unset;cursor:pointer;font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--bar-muted);padding:7px 11px;border-radius:999px;border:1px solid var(--edge);background:rgba(30,18,50,.85);white-space:nowrap;pointer-events:auto}
+.modetxt{display:inline-flex;align-items:center;gap:6px;cursor:default;position:relative}
+.mbtn{all:unset;cursor:pointer;color:var(--bar-muted);padding:2px 2px}
+body.day .mbtn.d, body.night .mbtn.n{color:#fff;text-decoration:underline;text-underline-offset:3px}
+body.night .mbtn.n{color:var(--magenta)}
+.mbtn:focus-visible{outline:2px solid var(--violet);outline-offset:3px;border-radius:4px}
+.mw{position:relative}
+.mw::after{content:"";position:absolute;left:-20px;right:-20px;top:100%;height:16px}
+.menu{position:absolute;top:calc(100% + 14px);right:-60px;width:340px;padding:14px;border-radius:18px;background:rgba(22,12,40,.96);border:1px solid var(--edge);box-shadow:0 18px 50px rgba(0,0,0,.5);text-transform:none;letter-spacing:0;font-family:var(--body);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .18s,transform .18s,visibility .18s;z-index:40}
+.mw.n .menu{border-color:rgba(255,46,151,.45)}
+.mw:hover .menu,.mw:focus-within .menu,.mw.open .menu{opacity:1;visibility:visible;transform:none}
+.mh{margin:0 0 10px;font-size:13px;color:#cbb9ea}.mh b{color:#fff}
+.mg{display:grid;grid-template-columns:repeat(3,100px);justify-content:space-between;gap:10px 8px}
+.mt span{white-space:normal}
+.mt{all:unset;cursor:pointer;min-width:0;align-content:start;display:grid;gap:5px;font-size:11.5px;line-height:1.2;color:#efe6ff;text-align:center}
+.mt img,.mt .soon{display:block;width:96px;height:96px;margin:0 auto;aspect-ratio:1;object-fit:cover;border-radius:12px;border:1px solid var(--edge);transition:transform .15s}
+.mt .soon{display:grid;place-items:center;font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#160a2a;background:linear-gradient(135deg,var(--violet),#4b2a8a)}
+.mw.n .mt .soon{background:linear-gradient(135deg,var(--magenta),#4b1a5a)}
+.mt:hover img,.mt:focus-visible img{transform:scale(1.04)}
+.mt:focus-visible{outline:2px solid var(--violet);outline-offset:2px;border-radius:12px}
+.mf{all:unset;cursor:pointer;display:block;margin-top:12px;text-align:center;font-weight:700;font-size:13px;padding:8px;border-radius:999px;background:var(--violet);color:#160a2a}
+.mw.n .mf{background:var(--magenta);color:#1a0414}
+.sl{color:var(--bar-muted)}
+
+/* ---------- Amanda's Studio (race track inside the website) ---------- */
+.stbtn{all:unset;cursor:pointer;font:600 11.5px var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#160a2a;background:#ffd27a;padding:8px 12px;border-radius:999px;white-space:nowrap}
+.stbtn[hidden]{display:none}
+.stbtn:focus-visible{outline:2px solid #fff;outline-offset:3px}
+.studio-login[hidden]{display:none}
+.studio-login{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:59;cursor:pointer;font:600 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#d9cdf0;background:rgba(30,18,50,.85);border:1px solid var(--edge);padding:8px 12px;border-radius:999px}
+.studio-login:hover{color:#fff;border-color:var(--violet)}
+.studio-login:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+@media (max-width:640px){.studio-login{bottom:calc(92px + env(safe-area-inset-bottom,0px))}}
+.sl-pop{position:fixed;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:61;width:min(320px,calc(100vw - 32px));display:grid;gap:8px;padding:16px;border-radius:16px;background:rgba(22,12,40,.97);border:1px solid var(--edge);color:#efe6ff;font:14px/1.45 var(--body)}
+.sl-pop[hidden]{display:none}
+.sl-pop span{color:#c9bbe3}
+.sl-pop button{justify-self:start;cursor:pointer;font:700 13px var(--body);padding:8px 14px;border-radius:999px;border:0;background:var(--violet);color:#160a2a}
+@media (max-width:640px){.sl-pop{bottom:calc(136px + env(safe-area-inset-bottom,0px))}}
+.st-tabs{display:flex;gap:6px;flex-wrap:wrap}
+.st-tab{cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);background:transparent;color:#efe6ff}
+.st-tab[aria-pressed="true"]{background:#ffd27a;border-color:#ffd27a;color:#2a1a00}
+.st-tab:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.st-view[hidden]{display:none}
+.jw-in{max-width:1100px;margin:0 auto;padding:28px max(16px,env(safe-area-inset-left,0px)) 60px;display:grid;gap:18px}
+.j-k{margin:0;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#b99bff}
+.j-h{margin:0;font:800 clamp(28px,4.5vw,46px)/1.02 var(--display,system-ui);letter-spacing:-.02em}
+.j-l{margin:0;max-width:65ch;color:#c4b6dc}
+.jl{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,480px),1fr));gap:12px}
+.jd{display:flex;gap:14px;background:#1d1529;border:1px solid #3a2b55;border-radius:16px;padding:12px;min-width:0}
+.jd img{width:110px;height:138px;object-fit:cover;border-radius:10px;flex:none}
+.jd>div{min-width:0;display:grid;gap:6px;align-content:start}
+.jd p{margin:0;font-size:14px;line-height:1.45;color:#ddd0f2}
+.jd .jn{font-weight:700;font-size:15px;color:#fff}.jd .jn span{font:500 11px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:#ffd27a;margin-left:6px}
+.jd .jq{color:#efe6ff}.jd b{color:#fff}
+.j-h3{margin:16px 0 0;font:800 26px var(--display,system-ui)}
+.vr{display:grid;gap:6px}.vr h4{margin:0;font-size:17px}.vr p{margin:0;color:#c4b6dc;font-size:14px}
+.vg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.vg figure{margin:0;background:#1d1529;border:1px solid #3a2b55;border-radius:12px;overflow:hidden}
+.vg img{display:block;width:100%;aspect-ratio:4/5;object-fit:cover}
+.vg figcaption{padding:6px 8px;font-size:11.5px;line-height:1.35;color:#c4b6dc}
+.j-box{background:#1d1529;border:1px dashed #6a52a0;border-radius:16px;padding:14px 18px;color:#ddd0f2}.j-box ul{margin:8px 0 0;padding-left:18px}.j-box li{margin:4px 0}
+@media (max-width:520px){.jd{flex-direction:column}.jd img{width:100%;height:200px}}
+.studio{position:fixed;inset:0;z-index:85;background:#120b1d;overflow-y:auto;overscroll-behavior:contain;color:#f4eefb;font-family:var(--body)}
+.studio[hidden]{display:none}
+.st-bar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:12px max(16px,env(safe-area-inset-left,0px));padding-top:calc(12px + env(safe-area-inset-top,0px));background:rgba(18,11,29,.94);border-bottom:1px solid #2a1f3e}
+.st-x{all:unset;cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);color:#efe6ff}
+.st-x:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.st-title{font:800 18px var(--display,system-ui)}
+.st-note{font:500 11px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#bfaedd}
+/* ---------- business galleries ---------- */
+.gal{position:fixed;inset:0;z-index:80;background:rgba(10,5,20,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow-y:auto;overscroll-behavior:contain;color:#f4eefb;font-family:var(--body)}
+.gal[hidden]{display:none}
+.gal-in{max-width:1100px;margin:0 auto;padding:22px max(16px,env(safe-area-inset-left,0px)) 60px}
+.gal-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.gal-sp{flex:1}
+.gal-x,.gal-edit,.gal-done{all:unset;cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid var(--edge);background:rgba(30,18,50,.9);color:#efe6ff}
+.gal-edit[hidden]{display:none}
+.gal-x:focus-visible,.gal-edit:focus-visible,.gal-done:focus-visible,.gal-save:focus-visible,.gal-book:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.gal-k{margin:26px 0 4px;font:600 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--violet)}
+body.night .gal-k{color:var(--magenta)}
+.gal h2{margin:0;font:800 clamp(30px,5vw,52px)/1 var(--display,system-ui);letter-spacing:-.02em}
+.gal-s{margin:8px 0 18px;color:#bfaedd}
+.gal-tools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px;border:1px dashed var(--edge);border-radius:14px;margin-bottom:16px;background:rgba(30,18,50,.6)}
+.gal-tools[hidden]{display:none}
+.gal-add{cursor:pointer;font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;background:var(--violet);color:#160a2a}
+.gal-add input{position:absolute;width:1px;height:1px;opacity:0}
+.gal-add:focus-within{outline:2px solid #fff;outline-offset:3px}
+.gal-tip{font-size:12.5px;color:#bfaedd}
+.gal-status{font-size:13px;color:#e6dcff}
+.gal-save{all:unset;cursor:pointer;font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;background:#fff;color:#160a2a}
+.gal-save[disabled]{opacity:.4;cursor:default}
+.gal-grid{columns:3 260px;column-gap:12px}
+.gal-it{position:relative;break-inside:avoid;margin:0 0 12px;border-radius:14px;overflow:hidden;border:1px solid var(--edge);background:#1d1529}
+.gal-it button.open{all:unset;cursor:zoom-in;display:block}
+.gal-it img{display:block;width:100%;height:auto}
+.gal-it .ctl{position:absolute;top:8px;right:8px;display:flex;gap:6px}
+.gal-it .ctl button{all:unset;cursor:pointer;width:32px;height:32px;display:grid;place-items:center;border-radius:50%;background:rgba(14,7,26,.85);color:#fff;font-size:15px;border:1px solid rgba(255,255,255,.2)}
+.gal-it .ctl button:focus-visible{outline:2px solid var(--violet)}
+.gal-it .cov{position:absolute;left:8px;top:8px;font:600 10px var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--violet);color:#160a2a;padding:4px 8px;border-radius:999px}
+.gal-it.new::after{content:"Not saved yet";position:absolute;left:8px;bottom:8px;font:600 10px var(--mono);text-transform:uppercase;letter-spacing:.08em;background:#fff;color:#160a2a;padding:4px 8px;border-radius:999px}
+.gal-empty{display:grid;gap:6px;place-items:center;text-align:center;padding:60px 16px;border:1px dashed var(--edge);border-radius:18px;color:#bfaedd}
+.gal-empty b{color:#fff;font-size:20px}
+.gal-empty[hidden]{display:none}
+.gal-foot{display:flex;justify-content:center;margin-top:22px}
+.gal-book{all:unset;cursor:pointer;font-weight:700;padding:12px 22px;border-radius:999px;background:var(--violet);color:#160a2a}
+body.night .gal-book,body.night .gal-add{background:var(--magenta);color:#1a0414}
+.lb{position:fixed;inset:0;z-index:90;background:rgba(5,2,10,.94);display:grid;place-items:center}
+.lb[hidden]{display:none}
+.lb img{max-width:92vw;max-height:88vh;border-radius:10px;object-fit:contain}
+.lb button{all:unset;cursor:pointer;position:fixed;color:#fff;font-size:38px;width:52px;height:52px;display:grid;place-items:center;border-radius:50%;background:rgba(40,25,70,.7)}
+.lb-x{top:14px;right:14px;font-size:30px}.lb-p{left:12px;top:50%;transform:translateY(-50%)}.lb-n{right:12px;top:50%;transform:translateY(-50%)}
+.lb button:focus-visible{outline:2px solid var(--violet)}
+@media (max-width:640px){.gal-grid{columns:2 140px;column-gap:8px}.gal-it{margin-bottom:8px}}
+
+.bkw .menu{right:0;width:360px}
+.pr-row{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;border-radius:12px;border:1px solid transparent;color:#efe6ff}
+.pr-row+.pr-row{margin-top:4px}
+.pr-row:hover,.pr-row:focus-visible{background:rgba(167,123,255,.14);border-color:var(--edge)}
+body.night .pr-row:hover{background:rgba(255,46,151,.14)}
+.pr-row b{display:block;font-size:14px}.pr-row small{display:block;font-size:12px;color:#bfaedd;margin-top:2px}
+.pr-row em{font-style:normal;font-weight:700;font-size:13px;color:var(--violet);white-space:nowrap}
+body.night .pr-row em{color:var(--magenta)}
+.pr-row.call{border:1px dashed var(--edge);margin-bottom:6px}
+.pk-note{margin:10px 2px 0;font-size:11.5px;color:#bfaedd}
+body.night .bkw .mf{background:var(--magenta);color:#1a0414}
+@media (max-width:640px){.menu,.bkw .menu{position:fixed;top:58px;left:16px;right:16px;width:auto}.mg{grid-template-columns:repeat(3,minmax(0,1fr))}.mt img,.mt .soon{width:100%;height:auto;aspect-ratio:1}}
+.modetxt:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.bk{display:inline-flex;align-items:center;border:0;cursor:pointer;font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;background:var(--violet);color:#160a2a;white-space:nowrap}
+body.night .bk{background:var(--magenta);color:#1a0414;box-shadow:0 0 18px rgba(255,46,151,.5)}
+
+/* scene readout, left (desktop) */
+.scene{position:fixed;z-index:6;left:max(24px, env(safe-area-inset-left,0px));top:50%;transform:translateY(-50%);font:500 11px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--bar-muted);display:grid;gap:4px;max-width:200px}
+.scene b{font:800 64px/1 var(--display);letter-spacing:-.03em;color:var(--bar-ink)}
+.scene b small{font:500 14px var(--mono);color:var(--bar-muted)}
+.scene .slug{color:var(--violet)}
+body.night .scene .slug{color:var(--teal)}
+
+/* dial (desktop) */
+.dial{position:fixed;z-index:30;right:max(20px, env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.dial button{all:unset;cursor:pointer;display:flex;align-items:center;justify-content:flex-end;gap:10px;font:500 11px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--bar-muted);padding:3px 0}
+.dial i{width:10px;height:10px;border-radius:50%;border:1.5px solid currentColor;flex:none}
+.dial button[aria-current="true"]{color:#fff}
+.dial button[aria-current="true"] i{background:var(--violet);border-color:var(--violet);transform:scale(1.3)}
+body.night .dial button[aria-current="true"] i{background:var(--magenta);border-color:var(--magenta);box-shadow:0 0 10px var(--magenta)}
+.dial button:focus-visible{outline:2px solid var(--violet);outline-offset:4px;border-radius:4px}
+
+/* focus ring button: sits on the engraved NIGHT · · · DAY band */
+.focus{position:fixed;z-index:25;border:0;background:transparent;cursor:pointer;border-radius:999px;padding:0;color:var(--bar-ink)}
+.focus:hover{background:rgba(167,123,255,.08)}
+.focus .strip{display:none}
+.focus:focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+
+/* glass */
+#glass{position:fixed;z-index:5;left:50%;top:50%;width:var(--gd);height:var(--gd);transform:translate(-50%,-50%);border-radius:50%;overflow:hidden;
+  background:var(--gbg);color:var(--ink);container-type:size;isolation:isolate}
+body.day #glass{color-scheme:light}
+.page{position:absolute;inset:0;display:grid;place-items:center;text-align:center;visibility:hidden}
+.page.on{visibility:visible}
+.pi{width:76cqmin;display:grid;justify-items:center;gap:1.6cqmin;transform-origin:50% 50%}
+.slug{font:600 max(10px,1.75cqmin)/1.2 var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--acc)}
+body.night .slug{color:var(--acc2)}
+h1,h2{font-family:var(--display);font-weight:800;letter-spacing:-.03em;margin:0;text-wrap:balance;text-shadow:var(--glow)}
+h2{font-size:6cqmin;line-height:1}
+.sub{margin:0;color:var(--muted);font-size:max(13px,2.3cqmin);max-width:62cqmin;text-wrap:balance}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;cursor:pointer;text-decoration:none;font-weight:700;font-size:max(14px,2.3cqmin);padding:1.6cqmin 3.2cqmin;border-radius:999px;background:var(--acc);color:var(--acc-ink)}
+body.night .btn{box-shadow:0 0 22px rgba(255,46,151,.45)}
+.btn.ghost{background:transparent;color:var(--ink);box-shadow:inset 0 0 0 1.5px var(--line)}
+.btn:hover{filter:brightness(1.07)}
+.ph{border:1px dashed currentColor;opacity:.8;padding:1px 7px;border-radius:6px;font:500 max(12px,1.9cqmin) var(--mono);text-decoration:none}
+
+/* 1 hero */
+.hero-bg{position:absolute;inset:0}
+.hero-bg img{width:100%;height:100%;object-fit:cover}
+.hero-bg::after{content:"";position:absolute;inset:0;background:var(--wash)}
+.hero .pi{position:relative;gap:1.4cqmin}
+.hero h1{font-size:10.5cqmin;line-height:.9}
+.hero .tag{margin:0;font:600 max(12px,2cqmin) var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.hero q{font:600 max(15px,3cqmin)/1.3 var(--body);max-width:58cqmin;quotes:"\201C" "\201D";margin:1cqmin 0}
+.row{display:flex;gap:1.6cqmin;flex-wrap:wrap;justify-content:center}
+.cue{font:500 max(10px,1.6cqmin) var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:1cqmin}
+
+/* 2 work */
+.mosaic{width:74cqmin;height:42cqmin;display:grid;grid-template-columns:1fr 1.15fr 1fr;grid-template-rows:1fr 1fr;gap:1.2cqmin}
+.mosaic figure{margin:0;position:relative;overflow:hidden;border-radius:1.6cqmin;background:var(--panel)}
+.mosaic figure:first-child{grid-column:2;grid-row:1/3}
+.mosaic figure:nth-child(2){border-top-left-radius:9cqmin}
+.mosaic figure:nth-child(3){border-top-right-radius:9cqmin}
+.mosaic figure:nth-child(4){border-bottom-left-radius:9cqmin}
+.mosaic figure:nth-child(5){border-bottom-right-radius:9cqmin}
+.mosaic img{width:100%;height:100%;object-fit:cover}
+.badge{position:absolute;left:50%;bottom:1.2cqmin;transform:translateX(-50%);display:inline-flex;align-items:center;gap:6px;font:500 max(10px,1.5cqmin) var(--mono);letter-spacing:.08em;text-transform:uppercase;background:rgba(14,7,26,.82);color:#efe6ff;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.badge::before{content:"";border-left:7px solid currentColor;border-top:4.5px solid transparent;border-bottom:4.5px solid transparent}
+
+/* 3 who */
+.who{width:70cqmin;display:grid;grid-template-columns:1fr 1fr;gap:1.4cqmin;text-align:left}
+.who div{display:flex;gap:1.6cqmin;align-items:center;background:var(--panel);border:1px solid var(--line);border-radius:999px;padding:1cqmin 2.4cqmin 1cqmin 1cqmin;min-width:0}
+.who img{width:7.5cqmin;height:7.5cqmin;border-radius:50%;object-fit:cover;flex:none}
+body.day .who.n,body.night .who.d{display:none}
+.who i.soon{width:7.5cqmin;height:7.5cqmin;border-radius:50%;flex:none;display:grid;place-items:center;font:600 max(9px,1.3cqmin) var(--mono);text-transform:uppercase;letter-spacing:.08em;color:var(--acc-ink);background:linear-gradient(135deg,var(--acc),rgba(167,123,255,.35))}
+.who div[data-cat]{cursor:pointer;transition:border-color .15s,transform .15s}
+.who div[data-cat]:hover,.who div[data-cat]:focus-visible{border-color:var(--acc);transform:translateY(-1px);outline:none}
+.who b{display:block;font-size:max(13px,2.2cqmin);line-height:1.15}
+.who small{display:block;color:var(--muted);font-size:max(11.5px,1.8cqmin);line-height:1.25}
+.mlg{margin:0;font-size:max(12.5px,2cqmin);color:var(--muted);max-width:58cqmin}
+.mlg b{color:var(--ink)}
+.qph{border:1.5px dashed var(--line);color:var(--muted);border-radius:1.6cqmin;padding:1cqmin 2cqmin;font-size:max(12px,1.8cqmin);max-width:52cqmin}
+
+/* 4 about */
+.circ{width:15cqmin;height:15cqmin;border-radius:50%;overflow:hidden;box-shadow:0 0 0 .8cqmin var(--panel),0 0 0 1cqmin var(--line)}
+.circ img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.y95{font:800 15cqmin/.82 var(--display);letter-spacing:-.05em;color:var(--acc);margin:0;text-shadow:var(--glow)}
+.about .lead{margin:0;font:700 max(15px,3cqmin)/1.2 var(--display)}
+.about p.txt{margin:0;color:var(--muted);font-size:max(13px,2.2cqmin);max-width:66cqmin}
+.sig{font:500 max(11px,1.8cqmin) var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--acc)}
+body.night .sig{color:var(--acc2)}
+
+/* 5 packages */
+.pk{width:74cqmin;display:grid;grid-template-columns:1fr 1fr;gap:1.4cqmin;text-align:left}
+.p{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:2cqmin;padding:1.8cqmin 2.2cqmin;min-width:0}
+.p .nm{font:800 max(14px,2.6cqmin)/1.1 var(--display)}
+.p .pr{font:600 max(12px,2cqmin) var(--mono);color:var(--acc)}
+.p .wh{font-size:max(12px,1.85cqmin);color:var(--muted);line-height:1.3}
+.p .pill{position:absolute;right:1.6cqmin;top:-1.4cqmin;font:600 max(9.5px,1.45cqmin) var(--mono);letter-spacing:.1em;text-transform:uppercase;background:var(--acc);color:var(--acc-ink);padding:3px 8px;border-radius:999px;display:none}
+.p.hot{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc),0 10px 30px -12px var(--acc)}
+.p.hot .pill{display:block}
+body.night .p.hot{box-shadow:0 0 0 1px var(--acc),0 0 28px -4px rgba(255,46,151,.7)}
+.rules{margin:0;font-size:max(12px,1.85cqmin);color:var(--muted);max-width:66cqmin}
+.rules b{color:var(--ink)}
+
+/* 6 book */
+form{width:64cqmin;display:grid;grid-template-columns:1fr 1fr;gap:1.2cqmin 1.6cqmin;text-align:left}
+label{display:grid;gap:3px;font-size:max(12px,1.8cqmin);font-weight:600;color:var(--muted)}
+input,select{font:inherit;font-size:max(16px,2.4cqmin);font-weight:500;color:var(--ink);background:var(--panel);border:1px solid var(--line);border-radius:1.4cqmin;padding:.9cqmin 1.4cqmin;width:100%;min-width:0}
+body.day input,body.day select{background:#fff}
+body.night select option{background:#160a28;color:#f7f0ff}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:1px}
+.stylepick{grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;gap:1.2cqmin}
+.stylepick .lbl{grid-column:1/-1;font-size:max(12px,1.7cqmin);font-weight:600;color:var(--muted,inherit);opacity:.8}
+.stylepick button{display:flex;align-items:center;gap:1.2cqmin;padding:.7cqmin 1.6cqmin .7cqmin .7cqmin;border-radius:999px;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);cursor:pointer;font:inherit;text-align:left;min-width:0}
+body.day .stylepick button{background:#fff}
+.stylepick img{width:max(34px,5.6cqmin);height:max(34px,5.6cqmin);border-radius:50%;object-fit:cover;flex:none}
+.stylepick b{display:block;font-size:max(14px,2.1cqmin)}
+.stylepick small{display:block;font-size:max(11px,1.5cqmin);opacity:.75;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stylepick .types{grid-column:1/-1;margin:0;font-size:max(11.5px,1.6cqmin);opacity:.85;text-align:center}
+.stylepick button[aria-pressed="true"]{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
+.stylepick button:focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+form .full{grid-column:1/-1;display:flex;gap:1.6cqmin;align-items:center;justify-content:center;flex-wrap:wrap}
+.mini{font-size:max(11.5px,1.75cqmin);color:var(--muted)}
+.err{grid-column:1/-1;margin:0;min-height:0;font-size:13px;color:var(--acc);text-align:center}
+.mail{display:flex;gap:1.2cqmin;align-items:center;justify-content:center;flex-wrap:wrap;font-size:max(12.5px,1.9cqmin);color:var(--muted)}
+.mail code{font:500 max(13px,2cqmin) var(--mono);color:var(--ink);background:var(--panel);border:1px solid var(--line);padding:3px 8px;border-radius:8px;user-select:all}
+.copy{border:0;cursor:pointer;font:600 max(12px,1.8cqmin) var(--body);padding:5px 11px;border-radius:999px;background:var(--ink);color:var(--gbg-solid,#fff)}
+body.night .copy{color:#14081f}
+.credits{font:500 max(9.5px,1.4cqmin) var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);max-width:60cqmin;opacity:.9}
+.done{width:62cqmin;display:grid;gap:1cqmin;justify-items:center;background:var(--panel);border:1px solid var(--line);border-radius:2.4cqmin;padding:2.4cqmin}
+.done h3{margin:0;font:800 max(18px,3.6cqmin) var(--display)}
+.done dl{margin:0;display:grid;grid-template-columns:auto auto;gap:2px 12px;font-size:max(12.5px,1.9cqmin);text-align:left}
+.done dt{color:var(--muted)} .done dd{margin:0;font-weight:600}
+
+/* LENS GLASS EFFECT: fringe, bevel, sliding glint, vignette, refraction band */
+.fx{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:8}
+.fx .vig{position:absolute;inset:0;border-radius:inherit;background:radial-gradient(closest-side,transparent 80%,rgba(30,10,60,.12) 91%,rgba(20,6,40,.34) 100%)}
+body.night .fx .vig{background:radial-gradient(closest-side,transparent 74%,rgba(6,2,14,.35) 90%,rgba(0,0,0,.65) 100%)}
+.fx .band{position:absolute;inset:0;border-radius:inherit;padding:max(10px,2.6cqmin);
+  -webkit-backdrop-filter:blur(2.2px) saturate(1.35) brightness(1.06);backdrop-filter:blur(2.2px) saturate(1.35) brightness(1.06);
+  background:radial-gradient(closest-side,transparent 88%,rgba(255,255,255,.08) 96%,rgba(255,255,255,0) 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0)}
+.fx .rim{position:absolute;inset:0;border-radius:inherit;
+  box-shadow:inset 3px 0 0 -1px rgba(255,46,151,.55),inset -3px 0 0 -1px rgba(38,229,255,.55),inset 0 3px 0 -1px rgba(255,46,151,.35),inset 0 -3px 0 -1px rgba(38,229,255,.35),
+    inset 0 2px 1px 3px rgba(255,255,255,.28),inset 0 -2px 6px 2px rgba(0,0,0,.25),inset 0 0 0 1px rgba(255,255,255,.35)}
+.fx .glint{position:absolute;inset:0;border-radius:inherit;padding:max(6px,1.4cqmin);
+  background:conic-gradient(from calc(var(--glint,0deg) - 50deg),transparent 0deg,rgba(255,255,255,.0) 10deg,rgba(255,255,255,.85) 40deg,rgba(255,255,255,.0) 70deg,transparent 180deg,rgba(217,196,255,.0) 200deg,rgba(217,196,255,.5) 222deg,rgba(217,196,255,0) 244deg,transparent 360deg);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);filter:blur(1.5px);mix-blend-mode:screen}
+body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50deg),transparent 0deg,rgba(255,46,151,0) 10deg,rgba(255,120,200,.9) 40deg,rgba(255,46,151,0) 70deg,transparent 180deg,rgba(38,229,255,0) 200deg,rgba(38,229,255,.75) 222deg,rgba(38,229,255,0) 244deg,transparent 360deg)}
+#snapFx{position:absolute;left:50%;top:50%;width:0;height:0;border-radius:50%;transform:translate(-50%,-50%);inset:auto;display:none;z-index:9}
+#snapFx .band{padding:max(12px,3.4cqmin)}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.fx .band{background:radial-gradient(closest-side,transparent 86%,rgba(167,123,255,.22) 95%,rgba(255,255,255,.12) 100%)}}
+
+/* phone: glass expands to nearly full screen, thin ring */
+@media (max-width:640px){
+  #glass{left:max(10px, env(safe-area-inset-left,0px));right:max(10px, env(safe-area-inset-right,0px));top:calc(56px + env(safe-area-inset-top,0px));bottom:calc(64px + env(safe-area-inset-bottom,0px));width:auto;height:auto;transform:none;border-radius:30px}
+  .scene,.dial{display:none}
+  .bar{gap:8px}
+  .mark{font-size:16px}
+  .bar .bk{display:none}
+  .back{padding:5px 9px;font-size:11.5px}
+  .modetxt{padding:6px 9px;font-size:10.5px}
+  .foot{position:fixed;z-index:30;left:max(16px, env(safe-area-inset-left,0px));right:max(16px, env(safe-area-inset-right,0px));bottom:calc(10px + env(safe-area-inset-bottom,0px));height:44px;display:flex;align-items:center;justify-content:space-between;gap:8px;pointer-events:none}
+  .foot>*{pointer-events:auto}
+  .foot .sc{font:600 10px/1.25 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--bar-muted);width:86px}
+  .foot .sc b{display:block;color:#fff}
+  .focus{position:relative;left:auto!important;top:auto!important;width:170px!important;height:40px!important;overflow:hidden;border:1px solid var(--edge);background:repeating-linear-gradient(90deg,#24173a 0 2px,#140c22 2px 4px)}
+  .focus .strip{display:block;position:absolute;left:50%;top:50%;white-space:nowrap;font:600 10px var(--mono);letter-spacing:.08em;color:var(--bar-muted);background:#120a20;padding:4px 6px;border-radius:999px;transition:transform .45s ease-in-out;transform:translate(calc(-50% - 26px),-50%)}
+  body.night .focus .strip{transform:translate(calc(-50% + 26px),-50%)}
+  .focus .strip .d{color:#fff} body.night .focus .strip .d{color:var(--bar-muted)} body.night .focus .strip .n{color:var(--magenta)}
+  .focus .idx{position:absolute;left:50%;bottom:1px;transform:translateX(-50%);border:5px solid transparent;border-bottom-color:var(--violet)}
+  .foot .bk{padding:9px 14px}
+  .pi{width:100%;padding:18px 16px;gap:10px}
+  h2{font-size:26px}
+  .sub{font-size:14px;max-width:none}
+  .hero h1{font-size:46px}
+  .hero q{font-size:18px;max-width:300px}
+  .btn{padding:11px 18px;font-size:15px}
+  .mosaic{width:100%;height:330px;grid-template-columns:1.1fr 1fr;grid-template-rows:1fr 1fr 1fr;gap:6px}
+  .mosaic figure:first-child{grid-column:1;grid-row:1/3}
+  .mosaic figure:nth-child(2){grid-column:2;grid-row:1}
+  .mosaic figure:nth-child(3){grid-column:2;grid-row:2}
+  .mosaic figure{border-radius:12px!important}
+  .who{width:100%;grid-template-columns:1fr;gap:7px}
+  .who div{padding:6px 14px 6px 6px}
+  .who img,.who i.soon{width:40px;height:40px}
+  .who{grid-template-columns:1fr 1fr;gap:6px}
+  .who small{display:none}
+  .mlg{max-width:none}
+  .circ{width:84px;height:84px}
+  .y95{font-size:72px}
+  .about p.txt{max-width:none}
+  .pk{width:100%;gap:8px}
+  .p{padding:10px 11px;border-radius:14px}
+  .p .pill{top:-9px;right:8px}
+  .rules{max-width:none}
+  form{width:100%;grid-template-columns:1fr;gap:8px}
+  input,select{padding:8px 11px;border-radius:10px}
+  .done{width:100%;padding:16px}
+  .credits{max-width:none}
+  .fx .band{padding:12px} .fx .glint{padding:6px}
+  #glassFx .vig,body.night #glassFx .vig{background:none;box-shadow:inset 0 0 36px 4px rgba(30,10,60,.22)}
+  body.night #glassFx .vig{box-shadow:inset 0 0 40px 6px rgba(0,0,0,.5)}
+}
+@media (min-width:641px){ .foot{display:contents} .foot .sc,.foot .bk{display:none} }
+@media (min-width:641px) and (max-width:1100px){ .scene{display:none} .dial .lbl{display:none} }
+@media (prefers-reduced-motion:reduce){ .focus .strip{transition:none} }
+</style>
+</head>
+<body class="day">
+
+<header class="bar">
+    <a class="mark" href="#" data-go="0">NINETYFIFTH<span>.</span></a>
+  <span class="sp"></span>
+  <div class="modetxt" id="modeTxt" role="group" aria-label="Day or night style"><div class="mw d"><button class="mbtn d" type="button" data-setmode="day" aria-expanded="false" aria-controls="menu-day">Day</button><div class="menu" id="menu-day"><p class="mh"><b>Day shoots</b> · brands, studios, shops</p><div class="mg"><button type="button" class="mt" data-cat="branding"><img src="img/369.jpg" alt=""><span>Branding &amp; portraits</span></button><button type="button" class="mt" data-cat="beauty"><img src="img/220.jpg" alt=""><span>Beauty &amp; body art</span></button><button type="button" class="mt" data-cat="restaurants"><img src="img/534.jpg" alt=""><span>Restaurants &amp; cafés</span></button><button type="button" class="mt" data-cat="shops"><img src="img/190.jpg" alt=""><span>Shops &amp; food trucks</span></button><button type="button" class="mt" data-cat="cars"><img src="img/cad-c23.jpg" alt=""><span>Cars &amp; dealerships</span></button><button type="button" class="mt" data-cat="dental"><i class="soon">soon</i><span>Dental &amp; clinics</span></button></div><button type="button" class="mf" data-pick="day">See all day work →</button></div></div><span class="sl" aria-hidden="true">/</span><div class="mw n"><button class="mbtn n" type="button" data-setmode="night" aria-expanded="false" aria-controls="menu-night">Night</button><div class="menu" id="menu-night"><p class="mh"><b>Night shoots</b> · shows, events, parties</p><div class="mg"><button type="button" class="mt" data-cat="concerts"><img src="img/374.jpg" alt=""><span>Concerts &amp; shows</span></button><button type="button" class="mt" data-cat="clubs"><img src="img/108.jpg" alt=""><span>Club events &amp; parties</span></button><button type="button" class="mt" data-cat="festivals"><img src="img/361.jpg" alt=""><span>Festivals</span></button><button type="button" class="mt" data-cat="fashion"><i class="soon">soon</i><span>Fashion shows</span></button><button type="button" class="mt" data-cat="launches"><img src="img/cad-c3.jpg" alt=""><span>Launches &amp; brand nights</span></button><button type="button" class="mt" data-cat="artists"><img src="img/105.jpg" alt=""><span>Artists &amp; DJs</span></button></div><button type="button" class="mf" data-pick="night">See all night work →</button></div></div></div>
+  <div class="mw bkw"><button class="bk" type="button" data-go="5" aria-controls="menu-pk">Book a shoot</button><div class="menu pkmenu" id="menu-pk"><p class="mh"><b>Packages</b> · CAD, priced by the project</p><button type="button" class="pr-row call" data-call><span><b>Free discovery call</b><small>30 min with Amanda: talk through the photos and videos you want</small></span><em>Free</em></button><button type="button" class="pr-row" data-pkg="0"><span><b>Content Day</b><small>1 shoot · 15 photos · 1 reel</small></span><em>from $500</em></button><button type="button" class="pr-row" data-pkg="1"><span><b>Brand Story</b><small>1 shoot · 25 photos · 3 reels · BTS video</small></span><em>from $900</em></button><button type="button" class="pr-row" data-pkg="2"><span><b>Monthly Content Partner</b><small>2 shoot days a month, fresh content all month</small></span><em>from $1,500/mo</em></button><button type="button" class="pr-row" data-pkg="3"><span><b>Event Coverage</b><small>Events, launches, parties, nightlife</small></span><em>from $450</em></button><button type="button" class="pr-row" data-pkg="4"><span><b>Custom package</b><small>Mix photo, video and dates to fit your business</small></span><em>let's talk</em></button><p class="pk-note">50% deposit locks your date. Add-ons: 48-hour rush +$150, extra reel +$125.</p><button type="button" class="mf" data-go="4">Compare all packages →</button></div></div>
+</header>
+
+<div class="scene" aria-hidden="true"><span>Scene</span><b><span id="scNum">01</span><small> / 06</small></b><span id="scName">Opening</span><span class="slug" id="scSlug">Ext. Winnipeg · Day</span></div>
+
+<ol class="dial" aria-label="Scenes">
+  <li><button type="button" data-go="0"><span class="lbl">01 Opening</span><i></i></button></li>
+  <li><button type="button" data-go="1"><span class="lbl">02 The work</span><i></i></button></li>
+  <li><button type="button" data-go="2"><span class="lbl">03 Who it's for</span><i></i></button></li>
+  <li><button type="button" data-go="3"><span class="lbl">04 Since 1995</span><i></i></button></li>
+  <li><button type="button" data-go="4"><span class="lbl">05 Packages</span><i></i></button></li>
+  <li><button type="button" data-go="5"><span class="lbl">06 Book</span><i></i></button></li>
+</ol>
+
+<canvas id="lens" aria-hidden="true"></canvas>
+
+
+<div class="gal" id="gal" role="dialog" aria-modal="true" aria-labelledby="galTitle" hidden>
+  <div class="gal-in">
+    <div class="gal-top">
+      <button type="button" class="gal-x" id="galClose">&larr; Back to the lens</button>
+      <span class="gal-sp"></span>
+      <button type="button" class="gal-edit" id="galEditBtn" hidden>Amanda's login: edit photos</button>
+    </div>
+    <p class="gal-k" id="galKick">Day shoots</p>
+    <h2 id="galTitle">Gallery</h2>
+    <p class="gal-s" id="galSub"></p>
+    <div class="gal-tools" id="galTools" hidden>
+      <label class="gal-add">+ Add photos<input type="file" id="galFile" accept="image/jpeg,image/png,image/webp" multiple></label>
+      <span class="gal-tip">Tap &#9733; to make a photo the cover. Use &larr; &rarr; to change the order.</span>
+      <span class="gal-sp"></span>
+      <span class="gal-status" id="galStatus" role="status"></span>
+      <button type="button" class="gal-save" id="galSave" disabled>Save to website</button>
+      <button type="button" class="gal-done" id="galDone">Done</button>
+    </div>
+    <div class="gal-grid" id="galGrid"></div>
+    <div class="gal-empty" id="galEmpty" hidden><b>Photos coming soon.</b><span>Want this kind of shoot? Book it and you could be the first one here.</span></div>
+    <div class="gal-foot"><button type="button" class="gal-book" id="galBook">Book this kind of shoot</button></div>
+  </div>
+  <div class="lb" id="lb" hidden><button type="button" class="lb-x" id="lbX" aria-label="Close photo">&times;</button><button type="button" class="lb-p" id="lbP" aria-label="Previous photo">&lsaquo;</button><img id="lbImg" alt=""><button type="button" class="lb-n" id="lbN" aria-label="Next photo">&rsaquo;</button></div>
+</div>
+
+<button type="button" class="studio-login" id="studioBtn">Amanda's login</button>
+<div class="sl-pop" id="slPop" role="dialog" aria-label="Amanda's login" hidden><b>Amanda's Studio</b><span>This area is only for Amanda. Open this site signed in to the Claude account it was shared with, and the Studio opens here.</span><button type="button" id="slOk">Got it</button></div>
+
+<main id="glass">
+  <section class="page hero on" data-name="Opening" aria-label="NINETYFIFTH Visuals">
+    <div class="hero-bg"><img class="sw" data-d="img/217.jpg" data-n="img/509.jpg" data-ad="Tattoo artist at work in her studio" data-an="Green supercar under a hexagon light ceiling at Tintastic" src="img/217.jpg" alt="Tattoo artist at work in her studio"></div>
+    <div class="pi">
+      <div class="slug" data-d="Photo + video · Winnipeg, MB" data-n="Photo + video · Winnipeg nights">Photo + video · Winnipeg, MB</div>
+      <h1 tabindex="-1">NINETYFIFTH</h1>
+      <p class="tag">Shot by Top Shotta</p>
+      <q>If I can capture how you're feeling, I'm doing my job.</q>
+      <div class="row"><button class="btn" type="button" data-go="5">Book a shoot</button><button class="btn ghost" type="button" data-call>Free 30-min call</button></div>
+      <div class="cue">Scroll to turn the lens</div>
+    </div>
+  </section>
+
+  <section class="page" data-name="The work" aria-label="The work">
+    <div class="pi">
+      <div class="slug">Scene 02 · The work</div>
+      <h2 tabindex="-1">Emotion, whatever the vibe.</h2>
+      <p class="sub" data-d="Brands, studios and editorials, shot in clean daylight and cut for your feed." data-n="Stages, DJs and club nights, shot with the energy of the room.">Brands, studios and editorials, shot in clean daylight and cut for your feed.</p>
+      <div class="mosaic">
+        <figure><img class="sw" data-d="img/331.jpg" data-n="img/374.jpg" data-ad="Smiling woman with blonde waves against a flower wall" data-an="Tattooed performer under blue stage light, crowd reaching up" src="img/331.jpg" alt="Smiling woman with blonde waves against a flower wall"><span class="badge">Reel coming soon</span></figure>
+        <figure><img class="sw" data-d="img/534.jpg" data-n="img/105.jpg" data-ad="Wings and glowing cocktails at a bar" data-an="Rapper performing under a blue spotlight" src="img/534.jpg" alt="Wings and glowing cocktails at a bar"></figure>
+        <figure><img class="sw" data-d="img/221.jpg" data-n="img/108.jpg" data-ad="Close-up of a tattoo artist focused on her work" data-an="Crew of artists posing in a club" src="img/221.jpg" alt="Close-up of a tattoo artist focused on her work"></figure>
+        <figure><img class="sw" data-d="img/cad-c23.jpg" data-n="img/cad-c3.jpg" data-ad="White Cadillac Escalade under a steel bridge in the snow, sun flaring" data-an="Cadillac Escalade lit by blue neon in a dark studio" src="img/cad-c23.jpg" alt="White Cadillac Escalade under a steel bridge in the snow, sun flaring"></figure>
+        <figure><img class="sw" data-d="img/367.jpg" data-n="img/376.jpg" data-ad="Couple embracing in front of a waterfall" data-an="Singer on stage, crowd with phones up" src="img/367.jpg" alt="Couple embracing in front of a waterfall"></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Who it's for" aria-label="Who it's for">
+    <div class="pi">
+      <div class="slug">Scene 03 · Who it's for</div>
+      <h2 tabindex="-1" data-d="Day work: brands, studios, shops." data-n="Night work: shows, events, parties.">Day work: brands, studios, shops.</h2>
+      <p class="sub">Tap Day / Night at the top to see both sides of her work. Photos and reels, shot and edited by Amanda, delivered in about a week.</p>
+      <div class="who d" aria-label="Day work">
+        <div role="button" tabindex="0" data-cat="branding"><img src="img/369.jpg" alt=""><span><b>Branding &amp; portraits</b><small>Personal brands, owners, couples</small></span></div>
+        <div role="button" tabindex="0" data-cat="beauty"><img src="img/220.jpg" alt=""><span><b>Beauty &amp; body art</b><small>Brows, tattoos, lashes, salons</small></span></div>
+        <div role="button" tabindex="0" data-cat="restaurants"><img src="img/534.jpg" alt=""><span><b>Restaurants &amp; cafés</b><small>Food, drinks, the room</small></span></div>
+        <div role="button" tabindex="0" data-cat="shops"><img src="img/190.jpg" alt=""><span><b>Shops &amp; food trucks</b><small>Storefront, product, team</small></span></div>
+        <div role="button" tabindex="0" data-cat="cars"><img src="img/cad-c23.jpg" alt=""><span><b>Cars &amp; dealerships</b><small>Cadillac Canada, detailers</small></span></div>
+        <div role="button" tabindex="0" data-cat="dental"><i class="soon">soon</i><span><b>Dental &amp; clinics</b><small>Office, team, patient care</small></span></div>
+      </div>
+      <div class="who n" aria-label="Night work">
+        <div role="button" tabindex="0" data-cat="concerts"><img src="img/374.jpg" alt=""><span><b>Concerts &amp; shows</b><small>Artists live on stage</small></span></div>
+        <div role="button" tabindex="0" data-cat="clubs"><img src="img/108.jpg" alt=""><span><b>Club events &amp; parties</b><small>Crowds, hosts, the energy</small></span></div>
+        <div role="button" tabindex="0" data-cat="festivals"><img src="img/361.jpg" alt=""><span><b>Festivals</b><small>Stages, lights, big crowds</small></span></div>
+        <div role="button" tabindex="0" data-cat="fashion"><i class="soon">soon</i><span><b>Fashion shows</b><small>Runway, backstage, looks</small></span></div>
+        <div role="button" tabindex="0" data-cat="launches"><img src="img/cad-c3.jpg" alt=""><span><b>Launches &amp; brand nights</b><small>Cars, products, reveals</small></span></div>
+        <div role="button" tabindex="0" data-cat="artists"><img src="img/105.jpg" alt=""><span><b>Artists &amp; DJs</b><small>Promo, press, cover art</small></span></div>
+      </div>
+      <p class="mlg">Amanda shoots content for <b>Marylittleglam</b>, a Winnipeg permanent-makeup studio.</p>
+      <div class="qph">Client quote goes here. Ask your next 3 clients for one line.</div>
+    </div>
+  </section>
+
+  <section class="page about" data-name="Since 1995" aria-label="About Amanda">
+    <div class="pi">
+      <div class="circ"><img src="img/162.jpg" alt="Woman smiling under a purple and orange sunset"></div>
+      <p class="y95" tabindex="-1">1995</p>
+      <p class="lead">The year a visionary came to life.</p>
+      <p class="txt">My dad always had a camera. I've had one in my hand since I was six or seven, shooting everyday things from angles nobody noticed: my life through my lens. People started paying me shortly after high school. Now I shoot and edit for brands, artists and the nights this city remembers. One day, movies.</p>
+      <div class="sig">Amanda · Top Shotta</div>
+    </div>
+  </section>
+
+  <section class="page" data-name="Packages" aria-label="Packages">
+    <div class="pi">
+      <div class="slug">Scene 05 · Packages · CAD</div>
+      <h2 tabindex="-1">Priced by the project, not the hour.</h2>
+      <div class="pk">
+        <div class="p" data-k="content"><span class="pill"></span><div class="nm">Content Day</div><div class="pr">from $500</div><div class="wh">1 shoot · 15 photos · 1 reel</div></div>
+        <div class="p" data-k="story"><span class="pill"></span><div class="nm">Brand Story</div><div class="pr">from $900</div><div class="wh">1 shoot · 25 photos · 3 reels · BTS video</div></div>
+        <div class="p" data-k="monthly"><span class="pill">Day pick</span><div class="nm">Monthly Content Partner</div><div class="pr">from $1,500/mo</div><div class="wh">2 shoot days a month, fresh content all month</div></div>
+        <div class="p" data-k="event"><span class="pill">Night pick</span><div class="nm">Event Coverage</div><div class="pr">from $450</div><div class="wh">Events, launches, parties, nightlife</div></div>
+      </div>
+      <p class="rules"><b>A 50% non-refundable deposit locks your date.</b> Balance due on shoot day. Free reschedule with 48 hours' notice. Add-ons: 48-hour rush +$150, extra reel +$125, raw selects. Delivery in about a week.</p>
+      <button class="btn" type="button" data-go="5">Lock my date</button>
+    </div>
+  </section>
+
+  <section class="page" data-name="Book" aria-label="Book a shoot">
+    <div class="pi">
+      <div class="slug">Scene 06 · Book</div>
+      <h2 tabindex="-1">Let's book it.</h2>
+      <p class="sub">Tell Amanda what you need. She replies with dates and a plan.</p>
+      <div id="formWrap" style="display:contents">
+        <form id="bForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+          <input type="hidden" name="form-name" value="booking"><p hidden><label>Leave this empty <input name="bot-field"></label></p>
+          <input type="hidden" id="bMode" name="mode" value="Day">
+          <div class="stylepick" role="group" aria-label="Pick your style"><span class="lbl">Pick your style (tap to preview the whole site)</span>
+            <button type="button" data-style="day" aria-pressed="true"><img src="img/217.jpg" alt=""><span><b>Day</b><small>Brands, studios, shops, clinics</small></span></button>
+            <button type="button" data-style="night" aria-pressed="false"><img src="img/509.jpg" alt=""><span><b>Night</b><small>Concerts, events, parties, fashion</small></span></button>
+            <p class="types" data-d="Day: beauty studios · restaurants · shops · cars · dental · portraits" data-n="Night: concerts · club events · parties · festivals · fashion shows · launches">Day: beauty studios · restaurants · shops · cars · dental · portraits</p>
+          </div>
+          <label for="bName">Name<input id="bName" name="name" autocomplete="name" required></label>
+          <label for="bEmail">Email<input id="bEmail" name="email" type="email" autocomplete="email" required></label>
+          <label for="bNeed">What you need<select id="bNeed" name="need">
+            <option>Content Day, from $500</option>
+            <option>Brand Story, from $900</option>
+            <option selected>Monthly Content Partner, from $1,500/month</option>
+            <option>Event Coverage, from $450</option>
+            <option>Not sure yet</option>
+            <option>Free discovery call (30 min)</option></select></label>
+          <label for="bDate">Date<input id="bDate" name="date" placeholder="e.g. Nov 14 or early Dec"></label>
+          <p class="err" id="bErr" role="alert"></p>
+          <div class="full"><button class="btn" type="submit" id="bSubmit">Check my date</button><button class="btn ghost" type="button" data-call>Free 30-min call</button><span class="mini">Not sure yet? Talk to Amanda first.</span></div>
+        </form>
+      </div>
+      <div class="mail"><code id="mail">info@ninetyfifthvisuals.com</code><button class="copy" type="button" data-copy>Copy</button><a class="ph" href="https://instagram.com" target="_blank" rel="noopener">@yourhandle</a></div>
+      <div class="credits">Directed, shot &amp; edited by Amanda "Top Shotta" · © 2026 NINETYFIFTH Visuals · Winnipeg, MB</div>
+    </div>
+  </section>
+
+  <div class="fx" id="glassFx" aria-hidden="true"><div class="vig"></div><div class="band"></div><div class="glint"></div><div class="rim"></div></div>
+  <div class="fx" id="snapFx" aria-hidden="true"><div class="band"></div><div class="glint"></div><div class="rim"></div></div>
+</main>
+
+<div class="foot">
+  <div class="sc" aria-hidden="true"><b id="scPh">Scene 01/06</b><span id="scPhName">Opening</span></div>
+  <button class="focus" id="focusBtn" type="button" aria-pressed="false" aria-label="Focus ring: night mode"><span class="strip" aria-hidden="true"><b class="n">NIGHT</b> · · · <b class="d">DAY</b></span><span class="idx" aria-hidden="true"></span></button>
+  <button class="bk" type="button" data-go="5">Book</button>
+</div>
+
+<canvas id="blades" aria-hidden="true"></canvas>
+
+<script>
+(() => {
+  const N = 6, STEP = Math.PI/6, DUR = 800;
+  const pages = [...document.querySelectorAll('.page')];
+  const dialBtns = [...document.querySelectorAll('.dial button')];
+  const glass = document.getElementById('glass'), fxG = document.getElementById('glassFx'), snapFx = document.getElementById('snapFx');
+  const lc = document.getElementById('lens'), x = lc.getContext('2d');
+  const bc = document.getElementById('blades'), bx = bc.getContext('2d');
+  const focusBtn = document.getElementById('focusBtn'), modeTxt = document.getElementById('modeTxt');
+  const mqPhone = matchMedia('(max-width:640px)');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const NAMES = ['Opening','The work',"Who it's for",'Since 1995','Packages','Book'];
+  const SLUG = {day:['Ext. Winnipeg · Day','Ext. studio · Day','Int. storefront · Day','Ext. park · Golden hour','Int. office · Day','Int. your inbox · Day'],
+                night:['Int. club · Night','Int. stage · Night','Int. venue · Night','Ext. city · Late','Int. booth · Night','Int. your inbox · Night']};
+  let cur = 0, busy = false, mode = 'day', needDirty = false;
+  let W = innerWidth, H = innerHeight, dpr = 1, G = {cx:0,cy:0,r:0,w:0,h:0,phone:false};
+  let ringA = 0, focusA = 0, focusT = 0, openAmt = 1, anim = null, raf = 0;
+
+  /* ---------- geometry ---------- */
+  function measure(){
+    W = innerWidth; H = innerHeight; dpr = Math.min(2, devicePixelRatio || 1);
+    for (const c of [lc, bc]){ c.width = W*dpr; c.height = H*dpr; }
+    const b = glass.getBoundingClientRect();
+    G = {cx:b.left+b.width/2, cy:b.top+b.height/2, r:Math.min(b.width,b.height)/2, w:b.width, h:b.height, x0:b.left, y0:b.top, phone:mqPhone.matches};
+    const D = 22*Math.PI/180; focusT = mode==='night' ? -D : D; if (!anim) focusA = focusT;
+    if (!G.phone){
+      const k = G.r/304;
+      Object.assign(focusBtn.style, {left:(G.cx-110*k)+'px', top:(G.cy+G.r+24*k)+'px', width:(220*k)+'px', height:(38*k)+'px'});
+    } else focusBtn.removeAttribute('style');
+    drawLens();
+  }
+
+  /* ---------- lens drawing (from the purple Lens page) ---------- */
+  const COL = {
+    day:{eng:'#d9c4ff', dim:'#8f7bb5', tick:'#a77bff', rim:'#c9a6ff', halo:'rgba(167,123,255,', on:'#ffffff', knA:'#2e2046', knB:'#150c24'},
+    night:{eng:'#ff8fd0', dim:'#7d6aa3', tick:'#3ef0ff', rim:'#ff2e97', halo:'rgba(255,46,151,', on:'#ff2e97', knA:'#2a1838', knB:'#110818'}
+  };
+  function disc(r, f){ x.beginPath(); x.arc(G.cx,G.cy,r,0,Math.PI*2); x.fillStyle=f; x.fill(); }
+  function ring(r, w, s){ x.beginPath(); x.arc(G.cx,G.cy,r,0,Math.PI*2); x.lineWidth=w; x.strokeStyle=s; x.stroke(); }
+  function arcText(str, rad, ca, size, color, bottom, alpha){
+    x.save(); x.globalAlpha = alpha==null?1:alpha; x.font=`600 ${size}px "IBM Plex Mono", ui-monospace, monospace`; x.textAlign='center'; x.textBaseline='middle';
+    const ch=[...str], ws=ch.map(c=>x.measureText(c).width+size*.14), tot=ws.reduce((a,b)=>a+b,0)/rad;
+    let a = bottom ? ca+tot/2 : ca-tot/2;
+    ch.forEach((c,i)=>{ const da=ws[i]/rad, m = bottom ? a-da/2 : a+da/2;
+      x.save(); x.translate(G.cx+rad*Math.cos(m), G.cy+rad*Math.sin(m)); x.rotate(bottom ? m-Math.PI/2 : m+Math.PI/2);
+      x.fillStyle = typeof color==='function' ? color(i) : color; x.fillText(c,0,0); x.restore(); a += bottom ? -da : da; });
+    x.restore();
+  }
+  function rrect(c, x0, y0, w, h, r){ c.beginPath(); c.roundRect ? c.roundRect(x0,y0,w,h,r) : c.rect(x0,y0,w,h); }
+
+  function drawLens(){
+    const C = COL[mode];
+    if (!(G.r > 0)) return;
+    x.setTransform(dpr,0,0,dpr,0,0); x.clearRect(0,0,W,H);
+    if (G.phone){
+      const bg = x.createLinearGradient(0,0,0,H); bg.addColorStop(0,'#24173a'); bg.addColorStop(1,'#0e0718'); x.fillStyle=bg; x.fillRect(0,0,W,H);
+      const e = 6; rrect(x, G.x0-e, G.y0-e, G.w+2*e, G.h+2*e, 30+e); x.lineWidth=7; x.strokeStyle=C.knB; x.stroke();
+      x.setLineDash([2.5,2.5]); x.lineDashOffset = ringA*30 + focusA*40; x.strokeStyle=C.knA; x.stroke(); x.setLineDash([]);
+      rrect(x, G.x0-2, G.y0-2, G.w+4, G.h+4, 32); x.lineWidth=2; x.strokeStyle=C.rim; x.stroke();
+      return;
+    }
+    const r = G.r, k = r/304, rEng = r+27*k, rFoc = r+56*k, rOut = r+62*k;
+    // halo
+    const hg = x.createRadialGradient(G.cx,G.cy,rOut*.9,G.cx,G.cy,rOut+170*k);
+    hg.addColorStop(0, C.halo+'.32)'); hg.addColorStop(1, C.halo+'0)'); x.fillStyle=hg; x.fillRect(0,0,W,H);
+    if (mode==='night'){ const tg=x.createRadialGradient(G.cx+r*.7,G.cy+r*.6,0,G.cx+r*.7,G.cy+r*.6,r*.9); tg.addColorStop(0,'rgba(38,229,255,.16)'); tg.addColorStop(1,'rgba(38,229,255,0)'); x.fillStyle=tg; x.fillRect(0,0,W,H); }
+    // barrel
+    const g1 = x.createRadialGradient(G.cx-80*k,G.cy-120*k,40*k,G.cx,G.cy,rOut);
+    g1.addColorStop(0,'#3a2858'); g1.addColorStop(.7,'#1d1230'); g1.addColorStop(1,'#0c0716'); disc(rOut,g1); ring(rOut-1,2,'#4a3570');
+    // knurled focus ring (twists with Night/Day, turns a little with the barrel)
+    x.save(); x.translate(G.cx,G.cy); x.rotate(focusA + ringA*.25);
+    for (let i=0;i<200;i++){ x.rotate(Math.PI*2/200); x.fillStyle = i%2 ? C.knA : C.knB; x.fillRect(rEng+3*k,-2.3*k,rFoc-rEng-3*k,4.6*k); }
+    x.restore();
+    // smooth engraved sector for NIGHT · · · DAY
+    const D = 22*Math.PI/180, c0 = Math.PI/2 + focusA, mid = (rEng+rFoc)/2+1.5*k;
+    x.beginPath(); x.arc(G.cx,G.cy,mid,c0-D*1.75,c0+D*1.75); x.lineWidth=(rFoc-rEng-8*k); x.strokeStyle='#120a20'; x.lineCap='round'; x.stroke(); x.lineCap='butt';
+    const fs = 12.5*k;
+    arcText('NIGHT', mid, c0+D, fs, mode==='night'?C.on:C.dim, true);
+    arcText('DAY', mid, c0-D, fs, mode==='day'?C.on:C.dim, true);
+    for (const f of [-.45,0,.45]) { x.beginPath(); x.arc(G.cx+mid*Math.cos(c0+f*D), G.cy+mid*Math.sin(c0+f*D), 1.8*k, 0, 7); x.fillStyle=C.dim; x.fill(); }
+    // engraved scene ring
+    disc(rEng, '#0f0919'); ring(rEng, 1.5, '#5b4386');
+    x.save(); x.translate(G.cx,G.cy); x.rotate(ringA);
+    for (let i=0;i<72;i++){ const long = i%6===0; x.fillStyle = long ? C.tick : C.dim; x.fillRect(rEng-(long?7:4)*k, -.7*k, (long?6:3)*k, 1.4*k); x.rotate(Math.PI/36); }
+    x.restore();
+    for (let i=0;i<N;i++){
+      const off = ringA - i*STEP, al = Math.max(0, 1-Math.abs(off)/STEP);
+      if (al > .01) arcText(`SCENE ${String(i+1).padStart(2,'0')} · ${NAMES[i].toUpperCase()}`, r+15*k, -Math.PI/2 + off, 12*k, C.eng, false, al);
+    }
+    arcText('NINETYFIFTH · TOP SHOTTA · 24mm 1:1.4', r+15*k, ringA + .3, 10.5*k, C.dim);
+    // index mark at the bottom, pointing at the focus ring
+    x.beginPath(); x.moveTo(G.cx, G.cy+rEng+4*k); x.lineTo(G.cx-5*k, G.cy+rEng-5*k); x.lineTo(G.cx+5*k, G.cy+rEng-5*k); x.closePath(); x.fillStyle=C.rim; x.fill();
+    // bezel
+    ring(r+3*k, 3*k, C.rim); ring(r+.5, 2, 'rgba(8,4,16,.95)');
+  }
+
+  /* ---------- full-screen aperture blades ---------- */
+  function drawBlades(open){
+    bx.setTransform(dpr,0,0,dpr,0,0); bx.clearRect(0,0,W,H);
+    if (open >= .999) return;
+    const cx = G.cx, cy = G.cy, ar = Math.hypot(Math.max(cx,W-cx), Math.max(cy,H-cy)) + 10, n = 8;
+    const hole = Math.max(0, open) * ar;
+    const night = mode==='night';
+    for (let i=0;i<n;i++){
+      const a = i*Math.PI*2/n + (1-open)*.55;
+      bx.save(); bx.translate(cx,cy); bx.rotate(a); bx.beginPath();
+      bx.moveTo(hole, -ar*1.2); bx.lineTo(ar*1.4, -ar*1.2); bx.lineTo(ar*1.4, ar*.6); bx.lineTo(hole*Math.cos(Math.PI/n), hole*Math.sin(Math.PI/n)); bx.closePath();
+      const g = bx.createLinearGradient(0,-ar,ar,ar); g.addColorStop(0,'#24173c'); g.addColorStop(1,'#0a0612'); bx.fillStyle=g; bx.fill();
+      bx.strokeStyle = night ? 'rgba(255,46,151,.45)' : 'rgba(167,123,255,.45)'; bx.lineWidth=2; bx.stroke(); bx.restore();
+    }
+    if (open < .02){ bx.beginPath(); bx.arc(cx,cy,6,0,7); bx.fillStyle='#0a0612'; bx.fill(); }
+  }
+
+  /* ---------- page switching ---------- */
+  const ease = t => t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  function setGlint(){ const deg = (ringA + focusA*2)*180/Math.PI; glass.style.setProperty('--glint', (reduce?0:deg)+'deg'); }
+  function show(i){
+    const hadFocus = pages[cur].contains(document.activeElement);
+    cur = i;
+    pages.forEach((p,j)=>{ const on = j===i; p.classList.toggle('on', on); p.inert = !on; p.setAttribute('aria-hidden', on?'false':'true'); });
+    dialBtns.forEach((b,j)=> b.setAttribute('aria-current', j===i ? 'true' : 'false'));
+    const nn = String(i+1).padStart(2,'0');
+    document.getElementById('scNum').textContent = nn;
+    document.getElementById('scName').textContent = NAMES[i];
+    document.getElementById('scSlug').textContent = SLUG[mode][i];
+    document.getElementById('scPh').textContent = `Scene ${nn}/06`;
+    document.getElementById('scPhName').textContent = NAMES[i];
+    if (hadFocus){ const h = pages[i].querySelector('[tabindex="-1"]'); if (h) h.focus({preventScroll:true}); }
+  }
+  function go(i){
+    i = Math.max(0, Math.min(N-1, i|0));
+    if (i === cur || busy) return;
+    if (reduce){ ringA = i*STEP; show(i); drawLens(); setGlint(); return; }
+    busy = true; anim = {to:i, t0:performance.now(), from:ringA, swapped:false}; kick();
+  }
+  window.go = go;
+
+  function kick(){ if (!raf) raf = requestAnimationFrame(tick); }
+  function tick(now){
+    raf = 0; let more = false;
+    if (anim){
+      const p = Math.min(1, (now - anim.t0)/DUR);
+      ringA = anim.from + (anim.to*STEP - anim.from) * ease(p);
+      let open;
+      if (p < .42) open = 1 - ease(p/.42);
+      else if (p < .52) open = 0;
+      else open = ease((p-.52)/.48);
+      if (p >= .42 && !anim.swapped){ anim.swapped = true; show(anim.to); }
+      // the new page grows out of the glass with a glass rim on its edge
+      const pg = pages[cur].querySelector('.pi'), bgEl = pages[cur];
+      if (anim.swapped && p < 1){
+        const q = ease(Math.max(0,(p-.46)/.54)), rad = q*Math.hypot(G.w,G.h)/2 + 2;
+        bgEl.style.clipPath = `circle(${rad.toFixed(1)}px at 50% 50%)`;
+        pg.style.transform = `scale(${(.72+.28*q).toFixed(3)})`;
+        snapFx.style.display = 'block'; snapFx.style.width = snapFx.style.height = (2*rad)+'px'; snapFx.style.opacity = (1-q*q).toFixed(3);
+      }
+      openAmt = open; drawBlades(open);
+      if (p >= 1){ anim = null; busy = false; bgEl.style.clipPath=''; pg.style.transform=''; snapFx.style.display='none'; drawBlades(1); }
+      else more = true;
+    }
+    if (Math.abs(focusT - focusA) > .0005){ focusA += (focusT - focusA)*.14; more = true; } else focusA = focusT;
+    drawLens(); setGlint();
+    if (more) kick();
+  }
+
+  /* ---------- Night & Day on the focus ring ---------- */
+  function setMode(m, initial){
+    mode = m; const night = m==='night';
+    document.body.classList.toggle('night', night); document.body.classList.toggle('day', !night);
+    focusBtn.setAttribute('aria-pressed', night); modeTxt.setAttribute('aria-pressed', night);
+    document.querySelectorAll('.sw').forEach(img => { img.src = img.dataset[night?'n':'d']; img.alt = img.dataset[night?'an':'ad']; });
+    document.querySelectorAll('[data-d][data-n]:not(img)').forEach(el => el.textContent = el.dataset[night?'n':'d']);
+    document.querySelectorAll('.p').forEach(p => p.classList.toggle('hot', p.dataset.k === (night?'event':'monthly')));
+    const need = document.getElementById('bNeed'); if (need && !needDirty) need.selectedIndex = night ? 3 : 2;
+    const hm = document.getElementById('bMode'); if (hm) hm.value = night ? 'Night' : 'Day';
+    document.querySelectorAll('[data-style]').forEach(b => b.setAttribute('aria-pressed', b.dataset.style === m));
+    document.getElementById('scSlug').textContent = SLUG[m][cur];
+    const D = 22*Math.PI/180; focusT = night ? -D : D;
+    if (initial || reduce){ focusA = focusT; drawLens(); setGlint(); } else kick();
+  }
+  const toggle = () => setMode(mode==='night' ? 'day' : 'night');
+  focusBtn.addEventListener('click', toggle);
+  const mws = [...document.querySelectorAll('.mw')];
+  const closeMenus = () => mws.forEach(w => { w.classList.remove('open'); const m = w.querySelector('.mbtn'); if (m) m.setAttribute('aria-expanded','false'); });
+  document.querySelectorAll('[data-setmode]').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation(); const w = b.closest('.mw'), was = w.classList.contains('open');
+    if (mode !== b.dataset.setmode) setMode(b.dataset.setmode);
+    closeMenus(); if (!was){ w.classList.add('open'); b.setAttribute('aria-expanded','true'); }
+  }));
+  document.querySelectorAll('[data-pick]').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation(); if (mode !== b.dataset.pick) setMode(b.dataset.pick); closeMenus(); document.activeElement && document.activeElement.blur(); go(2);
+  }));
+  document.querySelectorAll('[data-pkg]').forEach(b => b.addEventListener('click', e => {
+    e.stopPropagation(); const s = document.getElementById('bNeed'); if (s){ s.selectedIndex = +b.dataset.pkg; needDirty = true; }
+    closeMenus(); document.activeElement && document.activeElement.blur(); go(5);
+  }));
+  /* Free 30-minute discovery call. Put Amanda's booking link (Google Calendar booking page or Calendly) here and it opens directly. */
+  const CALL_URL = '';
+  document.querySelectorAll('[data-call]').forEach(b => b.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation(); closeMenus(); document.activeElement && document.activeElement.blur();
+    if (CALL_URL){ window.open(CALL_URL, '_blank', 'noopener'); return; }
+    const s = document.getElementById('bNeed'); if (s){ s.value = 'Free discovery call (30 min)'; needDirty = true; }
+    const d = document.getElementById('bDate'); if (d) d.placeholder = 'Best days and times for a call';
+    go(5); setTimeout(() => { const n = document.getElementById('bName'); n && n.focus({preventScroll:true}); }, 900);
+  }));
+  document.querySelectorAll('.menu [data-go]').forEach(b => b.addEventListener('click', () => { closeMenus(); setTimeout(() => document.activeElement && document.activeElement.blur(), 0); }));
+  document.addEventListener('click', e => { if (!e.target.closest('.mw')) closeMenus(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
+  document.querySelectorAll('[data-style]').forEach(b => b.addEventListener('click', () => { if (mode !== b.dataset.style) setMode(b.dataset.style); }));
+
+  /* ---------- input: one gesture = one page ---------- */
+  document.querySelectorAll('[data-go]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); go(+el.dataset.go); }));
+  let acc = 0, lockUntil = 0;
+  const galOpen = () => !document.getElementById('gal').hidden || !document.getElementById('studio').hidden;
+  addEventListener('wheel', e => {
+    if (galOpen()) return;
+    e.preventDefault();
+    const now = performance.now();
+    if (now < lockUntil || busy){ acc = 0; return; }
+    acc += e.deltaY;
+    if (Math.abs(acc) > 40){ const d = acc > 0 ? 1 : -1; acc = 0; lockUntil = now + 900; go(cur + d); }
+  }, {passive:false});
+  let ty = null;
+  addEventListener('touchstart', e => { ty = e.touches[0].clientY; }, {passive:true});
+  addEventListener('touchmove', e => { if (galOpen()) return; if (!e.target.closest('input,select,textarea')) e.preventDefault(); }, {passive:false});
+  addEventListener('touchend', e => {
+    if (ty == null || galOpen()) { ty = null; return; } const dy = ty - e.changedTouches[0].clientY; ty = null;
+    if (Math.abs(dy) > 40 && performance.now() >= lockUntil){ lockUntil = performance.now() + 900; go(cur + (dy > 0 ? 1 : -1)); }
+  }, {passive:true});
+  addEventListener('keydown', e => {
+    if (galOpen()) return;
+    if (e.target.closest('input,select,textarea,[contenteditable]')) return;
+    if (e.key === ' ' && e.target.closest('button,a')) return;
+    if (['ArrowDown','PageDown',' '].includes(e.key)){ e.preventDefault(); go(cur+1); }
+    else if (['ArrowUp','PageUp'].includes(e.key)){ e.preventDefault(); go(cur-1); }
+  });
+
+  /* ---------- form + copy ---------- */
+  const MAIL = 'info@ninetyfifthvisuals.com';
+  function wireCopy(btn, codeEl){
+    btn.addEventListener('click', () => {
+      const ok = () => { btn.textContent = 'Copied'; setTimeout(()=>btn.textContent='Copy', 1600); };
+      const sel = () => { const r = document.createRange(); r.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; };
+      try { navigator.clipboard.writeText(MAIL).then(ok, sel); } catch(_) { sel(); }
+    });
+  }
+  wireCopy(document.querySelector('[data-copy]'), document.getElementById('mail'));
+  document.getElementById('bNeed').addEventListener('change', () => needDirty = true);
+  const esc = s => s.replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  document.getElementById('bForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const nm = document.getElementById('bName'), em = document.getElementById('bEmail'), err = document.getElementById('bErr');
+    if (!nm.value.trim()){ err.textContent = 'Add your name.'; nm.focus(); return; }
+    if (!/^\S+@\S+\.\S+$/.test(em.value.trim())){ err.textContent = 'Add an email Amanda can reply to.'; em.focus(); return; }
+    const dt = document.getElementById('bDate').value.trim() || 'Flexible';
+    const fd = new FormData(document.getElementById('bForm'));
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(fd).toString() })
+      .catch(() => {});
+    document.getElementById('formWrap').innerHTML = `<div class="done" role="status" tabindex="-1" id="done">
+      <div class="slug">Request sent · that's a wrap</div>
+      <h3>Thanks, ${esc(nm.value.trim())}.</h3>
+      <dl><dt>Need</dt><dd>${esc(document.getElementById('bNeed').value)}</dd><dt>Date</dt><dd>${esc(dt)}</dd><dt>Reply to</dt><dd>${esc(em.value.trim())}</dd><dt>Mode</dt><dd>${esc(document.getElementById('bMode').value)}</dd></dl>
+      <p class="mini" style="margin:0">Amanda will reply by email within 1 to 2 days. Questions before then? Email her below.</p>
+      <div class="mail"><code id="mail2">${MAIL}</code><button class="copy" type="button" id="copy2">Copy</button></div></div>`;
+    wireCopy(document.getElementById('copy2'), document.getElementById('mail2'));
+    document.getElementById('done').focus({preventScroll:true});
+  });
+
+  const syncCall = () => { const isCall = /discovery call/i.test(document.getElementById('bNeed').value);
+    document.getElementById('bSubmit').textContent = isCall ? 'Request my free call' : 'Check my date';
+    document.getElementById('bDate').placeholder = isCall ? 'Best days and times for a call' : 'e.g. Nov 14 or early Dec'; };
+  document.getElementById('bNeed').addEventListener('change', () => { needDirty = true; syncCall(); });
+  document.querySelectorAll('[data-call]').forEach(b => b.addEventListener('click', () => setTimeout(syncCall, 0)));
+  /* ---------- start ---------- */
+  setMode('day', true); show(0);
+  measure();
+  addEventListener('resize', measure);
+
+  /* ---------- business galleries (Amanda edits, everyone views) ---------- */
+  const CATS = {"branding": {"m": "day", "t": "Branding & portraits", "s": "Personal brands, owners, couples"}, "beauty": {"m": "day", "t": "Beauty & body art", "s": "Brows, tattoos, lashes, salons"}, "restaurants": {"m": "day", "t": "Restaurants & caf\u00e9s", "s": "Food, drinks, the room"}, "shops": {"m": "day", "t": "Shops & food trucks", "s": "Storefront, product, team"}, "cars": {"m": "day", "t": "Cars & dealerships", "s": "Cadillac Canada, detailers"}, "dental": {"m": "day", "t": "Dental & clinics", "s": "Office, team, patient care"}, "concerts": {"m": "night", "t": "Concerts & shows", "s": "Artists live on stage"}, "clubs": {"m": "night", "t": "Club events & parties", "s": "Crowds, hosts, the energy"}, "festivals": {"m": "night", "t": "Festivals", "s": "Stages, lights, big crowds"}, "fashion": {"m": "night", "t": "Fashion shows", "s": "Runway, backstage, looks"}, "launches": {"m": "night", "t": "Launches & brand nights", "s": "Cars, products, reveals"}, "artists": {"m": "night", "t": "Artists & DJs", "s": "Promo, press, cover art"}};
+  const SEED = {"version": 1, "cats": {"branding": [{"src": "img/369.jpg", "alt": "Editorial portrait in a brown dress on a bamboo chair"}, {"src": "img/162.jpg", "alt": "Portrait under a sunset lamp"}, {"src": "img/331.jpg", "alt": "Smiling woman against a flower wall"}, {"src": "img/365.jpg", "alt": "Woman in white walking through a sunlit park"}, {"src": "img/367.jpg", "alt": "Couple embracing in front of a waterfall"}], "beauty": [{"src": "img/220.jpg", "alt": "Tattoo artist's gloved hands at work"}, {"src": "img/217.jpg", "alt": "Tattoo artist mid-session in her studio"}, {"src": "img/221.jpg", "alt": "Close-up of a tattoo artist focused on her work"}], "restaurants": [{"src": "img/534.jpg", "alt": "Wings and glowing cocktails at a bar"}, {"src": "img/537.jpg", "alt": "Wings in checkered paper"}], "shops": [{"src": "img/190.jpg", "alt": "Food truck owners serving with a laugh"}, {"src": "img/541.jpg", "alt": "Business owner beside a yellow car"}, {"src": "img/509.jpg", "alt": "Tintastic garage with a green supercar"}], "cars": [{"src": "img/cad-c23.jpg", "alt": "White Cadillac Escalade under a steel bridge, sun flaring"}, {"src": "img/cad-c18.jpg", "alt": "Cadillac Escalade in front of a columned building"}, {"src": "img/cad-c4.jpg", "alt": "Gloved hand on a Cadillac steering wheel"}, {"src": "img/cad-c13.jpg", "alt": "Escalade and driver on the steps of a stone building"}, {"src": "img/cad-c24.jpg", "alt": "Escalade in the snow under a steel bridge"}, {"src": "img/cad-v6.jpg", "alt": "Driver stepping out of a white Escalade"}, {"src": "img/509.jpg", "alt": "Green supercar under a hexagon light ceiling"}], "dental": [], "concerts": [{"src": "img/374.jpg", "alt": "Tattooed performer under blue stage light"}, {"src": "img/376.jpg", "alt": "Singer on stage, crowd with phones up"}, {"src": "img/105.jpg", "alt": "Rapper performing under a blue spotlight"}], "clubs": [{"src": "img/108.jpg", "alt": "Crew of artists posing in a club"}, {"src": "img/107.jpg", "alt": "Performer on the mic in a club"}], "festivals": [{"src": "img/361.jpg", "alt": "Festival stage and crowd at night"}], "fashion": [], "launches": [{"src": "img/cad-c3.jpg", "alt": "Cadillac Escalade lit by blue neon"}, {"src": "img/cad-c2.jpg", "alt": "Cadillac headlight and wheel in blue light"}, {"src": "img/509.jpg", "alt": "Supercar reveal at Tintastic"}], "artists": [{"src": "img/105.jpg", "alt": "Rapper performing under a blue spotlight"}, {"src": "img/374.jpg", "alt": "Performer under blue stage light"}, {"src": "img/108.jpg", "alt": "Artists posing in a club"}]}};
+  let GAL = JSON.parse(JSON.stringify(SEED)), galCat = null, editing = false, dirty = false, lbIdx = 0, artifactNS = null;
+  const pending = {};            // path -> Blob (new uploads, not yet saved)
+  const localURL = {};           // path -> object URL for this view
+  const removed = new Set();     // uploaded paths to delete on save
+  const $ = id => document.getElementById(id);
+  const gal = $('gal'), grid = $('galGrid');
+  const srcOf = it => localURL[it.src] || it.src;
+  const list = k => (GAL.cats[k] = GAL.cats[k] || []);
+  function paintCovers(){
+    document.querySelectorAll('[data-cat]').forEach(el => {
+      const L = list(el.dataset.cat), old = el.querySelector('img,i.soon');
+      if (!old) return;
+      if (L.length){
+        if (old.tagName === 'IMG'){ if (old.getAttribute('src') !== srcOf(L[0])) old.src = srcOf(L[0]); }
+        else { const im = document.createElement('img'); im.alt = ''; im.src = srcOf(L[0]); old.replaceWith(im); }
+      } else if (old.tagName === 'IMG'){ const i = document.createElement('i'); i.className = 'soon'; i.textContent = 'soon'; old.replaceWith(i); }
+    });
+  }
+  function renderGal(){
+    const c = CATS[galCat], L = list(galCat);
+    $('galKick').textContent = (c.m === 'night' ? 'Night shoots' : 'Day shoots') + ' · ' + L.length + (L.length === 1 ? ' photo' : ' photos');
+    $('galTitle').textContent = c.t; $('galSub').textContent = c.s;
+    $('galBook').textContent = 'Book a shoot like this';
+    grid.textContent = '';
+    L.forEach((it, i) => {
+      const f = document.createElement('figure'); f.className = 'gal-it' + (pending[it.src] ? ' new' : '');
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'open'; b.setAttribute('aria-label', 'Open photo ' + (i+1));
+      const im = document.createElement('img'); im.loading = 'lazy'; im.src = srcOf(it); im.alt = it.alt || c.t;
+      b.appendChild(im); b.addEventListener('click', () => openLB(i)); f.appendChild(b);
+      if (editing){
+        if (i === 0){ const s = document.createElement('span'); s.className = 'cov'; s.textContent = 'Cover'; f.appendChild(s); }
+        const ctl = document.createElement('div'); ctl.className = 'ctl';
+        const mk = (txt, label, fn) => { const x = document.createElement('button'); x.type = 'button'; x.textContent = txt; x.setAttribute('aria-label', label); x.addEventListener('click', e => { e.stopPropagation(); fn(); }); ctl.appendChild(x); };
+        if (i > 0) mk('\u2605', 'Make cover photo', () => move(i, 0));
+        if (i > 0) mk('\u2190', 'Move earlier', () => move(i, i-1));
+        if (i < L.length-1) mk('\u2192', 'Move later', () => move(i, i+1));
+        mk('\u00d7', 'Remove photo', () => removeAt(i));
+        f.appendChild(ctl);
+      }
+      grid.appendChild(f);
+    });
+    $('galEmpty').hidden = L.length > 0;
+    $('galTools').hidden = !editing;
+    $('galSave').disabled = !dirty;
+    $('galEditBtn').textContent = editing ? 'Editing as Amanda' : "Amanda's login: edit photos";
+  }
+  function markDirty(){ dirty = true; $('galStatus').textContent = 'Changes not saved yet'; renderGal(); paintCovers(); }
+  function move(a, b){ const L = list(galCat); const [x] = L.splice(a, 1); L.splice(b, 0, x); markDirty(); }
+  function removeAt(i){
+    const L = list(galCat), [x] = L.splice(i, 1);
+    const stillUsed = Object.values(GAL.cats).some(l => l.some(it => it.src === x.src));
+    if (!stillUsed){ if (pending[x.src]) delete pending[x.src]; else if (x.src.startsWith('gallery/')) removed.add(x.src); }
+    markDirty();
+  }
+  function openGal(k){
+    if (!CATS[k]) return;
+    galCat = k; if (mode !== CATS[k].m) setMode(CATS[k].m);
+    closeMenus(); document.activeElement && document.activeElement.blur();
+    renderGal(); gal.hidden = false; gal.scrollTop = 0; $('galClose').focus();
+  }
+  function closeGal(){
+    if (editing && dirty && !confirmLeave()) return;
+    gal.hidden = true; $('lb').hidden = true;
+  }
+  function confirmLeave(){ $('galStatus').textContent = 'Save or press Done first, so new photos are not lost.'; return false; }
+  function openLB(i){ lbIdx = i; showLB(); $('lb').hidden = false; $('lbX').focus(); }
+  function showLB(){ const L = list(galCat); if (!L.length) return; lbIdx = (lbIdx + L.length) % L.length; $('lbImg').src = srcOf(L[lbIdx]); $('lbImg').alt = L[lbIdx].alt || ''; }
+  $('lbX').addEventListener('click', () => { $('lb').hidden = true; });
+  $('lbP').addEventListener('click', () => { lbIdx--; showLB(); });
+  $('lbN').addEventListener('click', () => { lbIdx++; showLB(); });
+  $('galClose').addEventListener('click', closeGal);
+  $('galBook').addEventListener('click', () => { if (editing && dirty) return confirmLeave(); gal.hidden = true; go(5); });
+  gal.addEventListener('keydown', e => {
+    if (!$('lb').hidden){ if (e.key === 'Escape') $('lb').hidden = true; else if (e.key === 'ArrowLeft'){ lbIdx--; showLB(); } else if (e.key === 'ArrowRight'){ lbIdx++; showLB(); } return; }
+    if (e.key === 'Escape') closeGal();
+  });
+  document.querySelectorAll('[data-cat]').forEach(el => {
+    el.addEventListener('click', e => { e.stopPropagation(); openGal(el.dataset.cat); });
+    if (el.getAttribute('role') === 'button') el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); openGal(el.dataset.cat); } });
+  });
+
+  const sb = document.getElementById('studioBtn'); if (sb) sb.hidden = true;
+  const slPop = document.getElementById('slPop'); let isAmanda = false;
+  /* load the saved gallery */
+  fetch('gallery.json', {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(d => {
+    if (d && d.cats){ GAL = d; Object.keys(CATS).forEach(list); paintCovers(); if (!gal.hidden) renderGal(); }
+  }).catch(() => {});
+  /* Amanda's edit mode: only people with edit access to this site see it */
+  (async () => {
+    if (!window.claude || !claude.use) return;
+    const [user, art] = await Promise.all([claude.use('user'), claude.use('artifact')]);
+    if (!art || !user) return;
+    let can = false; try { can = await user.canEdit(); } catch(_){}
+    if (!can) return;
+    artifactNS = art; $('galEditBtn').hidden = false;
+  })();
+  $('galEditBtn').addEventListener('click', () => { editing = true; $('galStatus').textContent = ''; renderGal(); });
+  $('galDone').addEventListener('click', () => { if (dirty) return confirmLeave(); editing = false; renderGal(); });
+  async function shrink(file){
+    const bmp = await createImageBitmap(file, {imageOrientation:'from-image'});
+    const k = Math.min(1, 1800 / Math.max(bmp.width, bmp.height));
+    const c = document.createElement('canvas'); c.width = Math.round(bmp.width*k); c.height = Math.round(bmp.height*k);
+    c.getContext('2d').drawImage(bmp, 0, 0, c.width, c.height); bmp.close && bmp.close();
+    return await new Promise((res, rej) => c.toBlob(b => b ? res(b) : rej(new Error('encode')), 'image/jpeg', .82));
+  }
+  $('galFile').addEventListener('change', async e => {
+    const files = [...e.target.files]; e.target.value = ''; if (!files.length) return;
+    let ok = 0, bad = 0;
+    for (const f of files){
+      $('galStatus').textContent = 'Preparing ' + (ok+bad+1) + ' of ' + files.length + '…';
+      try {
+        const blob = await shrink(f);
+        const path = 'gallery/' + galCat + '-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,6) + '.jpg';
+        pending[path] = blob; localURL[path] = URL.createObjectURL(blob);
+        list(galCat).push({src:path, alt:CATS[galCat].t + ' photo by Amanda'}); ok++;
+      } catch(_){ bad++; }
+    }
+    markDirty();
+    $('galStatus').textContent = ok + ' added, not saved yet' + (bad ? ' · ' + bad + ' could not be read (use JPG or PNG, not HEIC)' : '');
+  });
+  $('galSave').addEventListener('click', async () => {
+    if (!artifactNS || !dirty) return;
+    const btn = $('galSave'); btn.disabled = true; $('galStatus').textContent = 'Saving to the website…';
+    const files = {'gallery.json': {content: JSON.stringify(GAL), contentType:'application/json'}};
+    Object.entries(pending).forEach(([p, b]) => { files[p] = b; });
+    removed.forEach(p => { files[p] = null; });
+    try {
+      await artifactNS.publish(files);
+      Object.keys(pending).forEach(p => delete pending[p]); removed.clear(); dirty = false;
+      $('galStatus').textContent = 'Saved. It is live on the website.'; renderGal();
+    } catch(err){
+      const code = err && err.code;
+      if (code === 'conflict') $('galStatus').textContent = 'Someone else saved at the same time. The page is reloading; add these again after.';
+      else if (code === 'not_writer' || code === 'not_granted' || code === 'capability_disabled' || code === 'consent_required') $('galStatus').textContent = 'Saving only works when you are signed in with edit access to this site.';
+      else if (code === 'too_large') $('galStatus').textContent = 'Too many photos at once. Save fewer at a time.';
+      else if (code === 'rate_limited') $('galStatus').textContent = 'Saving too fast. Wait a minute and press Save again.';
+      else $('galStatus').textContent = 'Could not save right now. Try again in a moment.';
+      btn.disabled = false;
+    }
+  });
+  if (document.fonts) document.fonts.ready.then(drawLens);
+})();
+</script>
+
+</body>
+</html>

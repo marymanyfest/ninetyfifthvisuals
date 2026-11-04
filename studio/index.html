@@ -385,9 +385,11 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
 .au-card{width:min(400px,100%);display:grid;gap:14px;background:#1d1529;border:1px solid #3a2b55;border-radius:22px;padding:26px 22px}
 .au-k{margin:0;font:500 12px var(--mono);letter-spacing:.14em;text-transform:uppercase;color:#b99bff}
 .au-card h1{margin:0;font:800 30px/1.05 var(--display,system-ui);letter-spacing:-.02em}
-.au-card label{display:grid;gap:6px;font-size:14px;font-weight:600}
+.au-card label{display:grid;gap:6px;font-size:14px;font-weight:600;color:#ffffff}
 .au-card label[hidden]{display:none}
-.au-card input{font:500 16px var(--body);color:#f4eefb;background:#120b1d;border:1px solid #4a3870;border-radius:12px;padding:12px 13px}
+.au-card input{font:500 16px var(--body);color:#160a2a!important;-webkit-text-fill-color:#160a2a;background:#ffffff!important;border:1px solid #a77bff;border-radius:12px;padding:12px 13px}
+.au-card input::placeholder{color:#6b5a8a}
+.au-card input:-webkit-autofill{-webkit-box-shadow:0 0 0 40px #fff inset;-webkit-text-fill-color:#160a2a}
 .au-card input:focus{outline:2px solid var(--violet);outline-offset:1px}
 .au-go{cursor:pointer;font:700 15px var(--body);padding:13px;border:0;border-radius:999px;background:#a77bff;color:#160a2a}
 .au-go:disabled{opacity:.6;cursor:wait}
@@ -440,7 +442,7 @@ html,body{overflow:auto!important;height:auto!important;min-height:100%;backgrou
 .wd-row{display:grid;gap:6px}
 .wd-l{font-size:13px;font-weight:600;color:#ddd0f2;display:flex;gap:8px;align-items:center}
 .wd-l em{font:500 10px var(--mono);letter-spacing:.08em;text-transform:uppercase;font-style:normal;color:#5be3a4}
-.wd-row input,.wd-row textarea{font:500 16px/1.45 var(--body);color:#f4eefb;background:#120b1d;border:1px solid #4a3870;border-radius:12px;padding:10px 12px;resize:vertical}
+.wd-row input,.wd-row textarea{font:500 16px/1.45 var(--body);color:#160a2a!important;-webkit-text-fill-color:#160a2a;background:#ffffff!important;border:1px solid #4a3870;border-radius:12px;padding:10px 12px;resize:vertical}
 .wd-row input:focus,.wd-row textarea:focus{outline:2px solid var(--violet);outline-offset:1px}
 .wd-reset{justify-self:start;cursor:pointer;font:600 12px var(--body);padding:5px 10px;border-radius:999px;border:1px solid #4a3870;background:transparent;color:#cbb3ff}
 .si-reset{cursor:pointer;font:600 13px var(--body);padding:8px 14px;border-radius:999px;border:1px solid #4a3870;background:transparent;color:#efe6ff}

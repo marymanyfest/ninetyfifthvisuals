@@ -169,6 +169,7 @@ body.night .pr-row em{color:var(--magenta)}
 body.night .bkw .mf{background:var(--magenta);color:#1a0414}
 @media (max-width:640px){.menu,.bkw .menu{position:fixed;top:58px;left:16px;right:16px;width:auto}.mg{grid-template-columns:repeat(3,minmax(0,1fr))}.mt img,.mt .soon{width:100%;height:auto;aspect-ratio:1}}
 .modetxt:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
+.lgi{display:inline-flex;align-items:center;flex:none;font-weight:600;font-size:14px;padding:8px 16px;border-radius:999px;border:1.5px solid currentColor;color:inherit;text-decoration:none;white-space:nowrap}.lgi:hover{background:rgba(167,123,255,.18)}.lgi:focus-visible{outline:2px solid var(--violet);outline-offset:3px}
 .bk{display:inline-flex;align-items:center;border:0;cursor:pointer;font-weight:700;font-size:14px;padding:9px 16px;border-radius:999px;background:var(--violet);color:#160a2a;white-space:nowrap}
 body.night .bk{background:var(--magenta);color:#1a0414;box-shadow:0 0 18px rgba(255,46,151,.5)}
 
@@ -382,7 +383,8 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
     <a class="mark" href="#" data-go="0">NINETYFIFTH<span>.</span></a>
   <span class="sp"></span>
   <div class="modetxt" id="modeTxt" role="group" aria-label="Day or night style"><div class="mw d"><button class="mbtn d" type="button" data-setmode="day" aria-expanded="false" aria-controls="menu-day">Day</button><div class="menu" id="menu-day"><p class="mh"><b>Day shoots</b> · brands, studios, shops</p><div class="mg"><button type="button" class="mt" data-cat="branding"><img src="img/369.jpg" alt=""><span>Branding &amp; portraits</span></button><button type="button" class="mt" data-cat="beauty"><img src="img/220.jpg" alt=""><span>Beauty &amp; body art</span></button><button type="button" class="mt" data-cat="restaurants"><img src="img/534.jpg" alt=""><span>Restaurants &amp; cafés</span></button><button type="button" class="mt" data-cat="shops"><img src="img/190.jpg" alt=""><span>Shops &amp; food trucks</span></button><button type="button" class="mt" data-cat="cars"><img src="img/cad-c23.jpg" alt=""><span>Cars &amp; dealerships</span></button><button type="button" class="mt" data-cat="dental"><i class="soon">soon</i><span>Dental &amp; clinics</span></button></div><button type="button" class="mf" data-pick="day">See all day work →</button></div></div><span class="sl" aria-hidden="true">/</span><div class="mw n"><button class="mbtn n" type="button" data-setmode="night" aria-expanded="false" aria-controls="menu-night">Night</button><div class="menu" id="menu-night"><p class="mh"><b>Night shoots</b> · shows, events, parties</p><div class="mg"><button type="button" class="mt" data-cat="concerts"><img src="img/374.jpg" alt=""><span>Concerts &amp; shows</span></button><button type="button" class="mt" data-cat="clubs"><img src="img/108.jpg" alt=""><span>Club events &amp; parties</span></button><button type="button" class="mt" data-cat="festivals"><img src="img/361.jpg" alt=""><span>Festivals</span></button><button type="button" class="mt" data-cat="fashion"><i class="soon">soon</i><span>Fashion shows</span></button><button type="button" class="mt" data-cat="launches"><img src="img/cad-c3.jpg" alt=""><span>Launches &amp; brand nights</span></button><button type="button" class="mt" data-cat="artists"><img src="img/105.jpg" alt=""><span>Artists &amp; DJs</span></button></div><button type="button" class="mf" data-pick="night">See all night work →</button></div></div></div>
-  <div class="mw bkw"><button class="bk" type="button" data-go="5" aria-controls="menu-pk">Book a shoot</button><div class="menu pkmenu" id="menu-pk"><p class="mh"><b>Packages</b> · CAD, priced by the project</p><button type="button" class="pr-row call" data-call><span><b>Free discovery call</b><small>30 min with Amanda: talk through the photos and videos you want</small></span><em>Free</em></button><button type="button" class="pr-row" data-pkg="0"><span><b>Content Day</b><small>1 shoot · 15 photos · 1 reel</small></span><em>from $500</em></button><button type="button" class="pr-row" data-pkg="1"><span><b>Brand Story</b><small>1 shoot · 25 photos · 3 reels · BTS video</small></span><em>from $900</em></button><button type="button" class="pr-row" data-pkg="2"><span><b>Monthly Content Partner</b><small>2 shoot days a month, fresh content all month</small></span><em>from $1,500/mo</em></button><button type="button" class="pr-row" data-pkg="3"><span><b>Event Coverage</b><small>Events, launches, parties, nightlife</small></span><em>from $450</em></button><button type="button" class="pr-row" data-pkg="4"><span><b>Custom package</b><small>Mix photo, video and dates to fit your business</small></span><em>let's talk</em></button><p class="pk-note">50% deposit locks your date. Add-ons: 48-hour rush +$150, extra reel +$125.</p><button type="button" class="mf" data-go="4">Compare all packages →</button></div></div>
+  <div class="mw bkw"><button class="bk" type="button" data-go="5" aria-controls="menu-pk">Book a shoot</button><div class="menu pkmenu" id="menu-pk"><p class="mh"><b>Packages</b> · CAD, priced by the project</p><button type="button" class="pr-row call" data-call><span><b>Free discovery call</b><small>30 min with Amanda: talk through the photos and videos you want</small></span><em>Free</em></button><button type="button" class="pr-row" data-pkg="0"><span><b data-txt="t21">Content Day</b><small data-txt="t23">1 shoot · 15 photos · 1 reel</small></span><em data-txt="t22">from $500</em></button><button type="button" class="pr-row" data-pkg="1"><span><b data-txt="t24">Brand Story</b><small data-txt="t26">1 shoot · 25 photos · 3 reels · BTS video</small></span><em data-txt="t25">from $900</em></button><button type="button" class="pr-row" data-pkg="2"><span><b data-txt="t28">Monthly Content Partner</b><small data-txt="t30">2 shoot days a month, fresh content all month</small></span><em data-txt="t29">from $1,500/mo</em></button><button type="button" class="pr-row" data-pkg="3"><span><b data-txt="t32">Event Coverage</b><small data-txt="t34">Events, launches, parties, nightlife</small></span><em data-txt="t33">from $450</em></button><button type="button" class="pr-row" data-pkg="4"><span><b>Custom package</b><small>Mix photo, video and dates to fit your business</small></span><em>let's talk</em></button><p class="pk-note" data-txt="t44">50% deposit locks your date. Add-ons: 48-hour rush +$150, extra reel +$125.</p><button type="button" class="mf" data-go="4">Compare all packages →</button></div></div>
+  <a class="lgi" href="studio/">Log in</a>
 </header>
 
 <div class="scene" aria-hidden="true"><span>Scene</span><b><span id="scNum">01</span><small> / 06</small></b><span id="scName">Opening</span><span class="slug" id="scSlug">Ext. Winnipeg · Day</span></div>
@@ -429,36 +431,36 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
 
 <main id="glass">
   <section class="page hero on" data-name="Opening" aria-label="NINETYFIFTH Visuals">
-    <div class="hero-bg"><img class="sw" data-d="img/217.jpg" data-n="img/509.jpg" data-ad="Tattoo artist at work in her studio" data-an="Green supercar under a hexagon light ceiling at Tintastic" src="img/217.jpg" alt="Tattoo artist at work in her studio"></div>
+    <div class="hero-bg"><img class="sw" data-slot="open" data-d="img/217.jpg" data-n="img/509.jpg" data-ad="Tattoo artist at work in her studio" data-an="Green supercar under a hexagon light ceiling at Tintastic" src="img/217.jpg" alt="Tattoo artist at work in her studio"></div>
     <div class="pi">
-      <div class="slug" data-d="Photo + video · Winnipeg, MB" data-n="Photo + video · Winnipeg nights">Photo + video · Winnipeg, MB</div>
-      <h1 tabindex="-1">NINETYFIFTH</h1>
-      <p class="tag">Shot by Top Shotta</p>
-      <q>If I can capture how you're feeling, I'm doing my job.</q>
-      <div class="row"><button class="btn" type="button" data-go="5">Book a shoot</button><button class="btn ghost" type="button" data-call>Free 30-min call</button></div>
-      <div class="cue">Scroll to turn the lens</div>
+      <div data-txt="t01" class="slug" data-d="Photo + video · Winnipeg, MB" data-n="Photo + video · Winnipeg nights">Photo + video · Winnipeg, MB</div>
+      <h1 data-txt="t02" tabindex="-1">NINETYFIFTH</h1>
+      <p data-txt="t03" class="tag">Shot by Top Shotta</p>
+      <q data-txt="t04">If I can capture how you're feeling, I'm doing my job.</q>
+      <div class="row"><button data-txt="t05" class="btn" type="button" data-go="5">Book a shoot</button><button data-txt="t06" class="btn ghost" type="button" data-call>Free 30-min call</button></div>
+      <div data-txt="t07" class="cue">Scroll to turn the lens</div>
     </div>
   </section>
 
   <section class="page" data-name="The work" aria-label="The work">
     <div class="pi">
-      <div class="slug">Scene 02 · The work</div>
-      <h2 tabindex="-1">Emotion, whatever the vibe.</h2>
-      <p class="sub" data-d="Brands, studios and editorials, shot in clean daylight and cut for your feed." data-n="Stages, DJs and club nights, shot with the energy of the room.">Brands, studios and editorials, shot in clean daylight and cut for your feed.</p>
+      <div data-txt="t08" class="slug">Scene 02 · The work</div>
+      <h2 data-txt="t09" tabindex="-1">Emotion, whatever the vibe.</h2>
+      <p data-txt="t10" class="sub" data-d="Brands, studios and editorials, shot in clean daylight and cut for your feed." data-n="Stages, DJs and club nights, shot with the energy of the room.">Brands, studios and editorials, shot in clean daylight and cut for your feed.</p>
       <div class="mosaic">
-        <figure><img class="sw" data-d="img/331.jpg" data-n="img/374.jpg" data-ad="Smiling woman with blonde waves against a flower wall" data-an="Tattooed performer under blue stage light, crowd reaching up" src="img/331.jpg" alt="Smiling woman with blonde waves against a flower wall"><span class="badge">Reel coming soon</span></figure>
-        <figure><img class="sw" data-d="img/534.jpg" data-n="img/105.jpg" data-ad="Wings and glowing cocktails at a bar" data-an="Rapper performing under a blue spotlight" src="img/534.jpg" alt="Wings and glowing cocktails at a bar"></figure>
-        <figure><img class="sw" data-d="img/221.jpg" data-n="img/108.jpg" data-ad="Close-up of a tattoo artist focused on her work" data-an="Crew of artists posing in a club" src="img/221.jpg" alt="Close-up of a tattoo artist focused on her work"></figure>
-        <figure><img class="sw" data-d="img/cad-c23.jpg" data-n="img/cad-c3.jpg" data-ad="White Cadillac Escalade under a steel bridge in the snow, sun flaring" data-an="Cadillac Escalade lit by blue neon in a dark studio" src="img/cad-c23.jpg" alt="White Cadillac Escalade under a steel bridge in the snow, sun flaring"></figure>
-        <figure><img class="sw" data-d="img/367.jpg" data-n="img/376.jpg" data-ad="Couple embracing in front of a waterfall" data-an="Singer on stage, crowd with phones up" src="img/367.jpg" alt="Couple embracing in front of a waterfall"></figure>
+        <figure><img class="sw" data-slot="work1" data-d="img/331.jpg" data-n="img/374.jpg" data-ad="Smiling woman with blonde waves against a flower wall" data-an="Tattooed performer under blue stage light, crowd reaching up" src="img/331.jpg" alt="Smiling woman with blonde waves against a flower wall"><span data-txt="t11" class="badge">Reel coming soon</span></figure>
+        <figure><img class="sw" data-slot="work2" data-d="img/534.jpg" data-n="img/105.jpg" data-ad="Wings and glowing cocktails at a bar" data-an="Rapper performing under a blue spotlight" src="img/534.jpg" alt="Wings and glowing cocktails at a bar"></figure>
+        <figure><img class="sw" data-slot="work3" data-d="img/221.jpg" data-n="img/108.jpg" data-ad="Close-up of a tattoo artist focused on her work" data-an="Crew of artists posing in a club" src="img/221.jpg" alt="Close-up of a tattoo artist focused on her work"></figure>
+        <figure><img class="sw" data-slot="work4" data-d="img/cad-c23.jpg" data-n="img/cad-c3.jpg" data-ad="White Cadillac Escalade under a steel bridge in the snow, sun flaring" data-an="Cadillac Escalade lit by blue neon in a dark studio" src="img/cad-c23.jpg" alt="White Cadillac Escalade under a steel bridge in the snow, sun flaring"></figure>
+        <figure><img class="sw" data-slot="work5" data-d="img/367.jpg" data-n="img/376.jpg" data-ad="Couple embracing in front of a waterfall" data-an="Singer on stage, crowd with phones up" src="img/367.jpg" alt="Couple embracing in front of a waterfall"></figure>
       </div>
     </div>
   </section>
 
   <section class="page" data-name="Who it's for" aria-label="Who it's for">
     <div class="pi">
-      <div class="slug">Scene 03 · Who it's for</div>
-      <h2 tabindex="-1" data-d="Day work: brands, studios, shops." data-n="Night work: shows, events, parties.">Day work: brands, studios, shops.</h2>
+      <div data-txt="t12" class="slug">Scene 03 · Who it's for</div>
+      <h2 data-txt="t13" tabindex="-1" data-d="Day work: brands, studios, shops." data-n="Night work: shows, events, parties.">Day work: brands, studios, shops.</h2>
       <p class="sub">Tap Day / Night at the top to see both sides of her work. Photos and reels, shot and edited by Amanda, delivered in about a week.</p>
       <div class="who d" aria-label="Day work">
         <div role="button" tabindex="0" data-cat="branding"><img src="img/369.jpg" alt=""><span><b>Branding &amp; portraits</b><small>Personal brands, owners, couples</small></span></div>
@@ -477,48 +479,48 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
         <div role="button" tabindex="0" data-cat="artists"><img src="img/105.jpg" alt=""><span><b>Artists &amp; DJs</b><small>Promo, press, cover art</small></span></div>
       </div>
       <p class="mlg">Amanda shoots content for <b>Marylittleglam</b>, a Winnipeg permanent-makeup studio.</p>
-      <div class="qph">Client quote goes here. Ask your next 3 clients for one line.</div>
+      <div data-txt="t14" class="qph">Client quote goes here. Ask your next 3 clients for one line.</div>
     </div>
   </section>
 
   <section class="page about" data-name="Since 1995" aria-label="About Amanda">
     <div class="pi">
-      <div class="circ"><img src="img/162.jpg" alt="Woman smiling under a purple and orange sunset"></div>
-      <p class="y95" tabindex="-1">1995</p>
-      <p class="lead">The year a visionary came to life.</p>
-      <p class="txt">My dad always had a camera. I've had one in my hand since I was six or seven, shooting everyday things from angles nobody noticed: my life through my lens. People started paying me shortly after high school. Now I shoot and edit for brands, artists and the nights this city remembers. One day, movies.</p>
-      <div class="sig">Amanda · Top Shotta</div>
+      <div class="circ"><img data-slot="portrait" src="img/amanda.jpg" alt="Amanda on a winter street downtown"></div>
+      <p data-txt="t15" class="y95" tabindex="-1">1995</p>
+      <p data-txt="t16" class="lead">The year a visionary came to life.</p>
+      <p data-txt="t17" class="txt">My dad always had a camera. I've had one in my hand since I was six or seven, shooting everyday things from angles nobody noticed: my life through my lens. People started paying me shortly after high school. Now I shoot and edit for brands, artists and the nights this city remembers. One day, movies.</p>
+      <div data-txt="t18" class="sig">Amanda · Top Shotta</div>
     </div>
   </section>
 
   <section class="page" data-name="Packages" aria-label="Packages">
     <div class="pi">
-      <div class="slug">Scene 05 · Packages · CAD</div>
-      <h2 tabindex="-1">Priced by the project, not the hour.</h2>
+      <div data-txt="t19" class="slug">Scene 05 · Packages · CAD</div>
+      <h2 data-txt="t20" tabindex="-1">Priced by the project, not the hour.</h2>
       <div class="pk">
-        <div class="p" data-k="content"><span class="pill"></span><div class="nm">Content Day</div><div class="pr">from $500</div><div class="wh">1 shoot · 15 photos · 1 reel</div></div>
-        <div class="p" data-k="story"><span class="pill"></span><div class="nm">Brand Story</div><div class="pr">from $900</div><div class="wh">1 shoot · 25 photos · 3 reels · BTS video</div></div>
-        <div class="p" data-k="monthly"><span class="pill">Day pick</span><div class="nm">Monthly Content Partner</div><div class="pr">from $1,500/mo</div><div class="wh">2 shoot days a month, fresh content all month</div></div>
-        <div class="p" data-k="event"><span class="pill">Night pick</span><div class="nm">Event Coverage</div><div class="pr">from $450</div><div class="wh">Events, launches, parties, nightlife</div></div>
+        <div class="p" data-k="content"><span class="pill"></span><div data-txt="t21" class="nm">Content Day</div><div data-txt="t22" class="pr">from $500</div><div data-txt="t23" class="wh">1 shoot · 15 photos · 1 reel</div></div>
+        <div class="p" data-k="story"><span class="pill"></span><div data-txt="t24" class="nm">Brand Story</div><div data-txt="t25" class="pr">from $900</div><div data-txt="t26" class="wh">1 shoot · 25 photos · 3 reels · BTS video</div></div>
+        <div class="p" data-k="monthly"><span data-txt="t27" class="pill">Day pick</span><div data-txt="t28" class="nm">Monthly Content Partner</div><div data-txt="t29" class="pr">from $1,500/mo</div><div data-txt="t30" class="wh">2 shoot days a month, fresh content all month</div></div>
+        <div class="p" data-k="event"><span data-txt="t31" class="pill">Night pick</span><div data-txt="t32" class="nm">Event Coverage</div><div data-txt="t33" class="pr">from $450</div><div data-txt="t34" class="wh">Events, launches, parties, nightlife</div></div>
       </div>
-      <p class="rules"><b>A 50% non-refundable deposit locks your date.</b> Balance due on shoot day. Free reschedule with 48 hours' notice. Add-ons: 48-hour rush +$150, extra reel +$125, raw selects. Delivery in about a week.</p>
-      <button class="btn" type="button" data-go="5">Lock my date</button>
+      <p class="rules"><b data-txt="t35">A 50% non-refundable deposit locks your date.</b> Balance due on shoot day. Free reschedule with 48 hours' notice. Add-ons: 48-hour rush +$150, extra reel +$125, raw selects. Delivery in about a week.</p>
+      <button data-txt="t36" class="btn" type="button" data-go="5">Lock my date</button>
     </div>
   </section>
 
   <section class="page" data-name="Book" aria-label="Book a shoot">
     <div class="pi">
-      <div class="slug">Scene 06 · Book</div>
-      <h2 tabindex="-1">Let's book it.</h2>
-      <p class="sub">Tell Amanda what you need. She replies with dates and a plan.</p>
+      <div data-txt="t37" class="slug">Scene 06 · Book</div>
+      <h2 data-txt="t38" tabindex="-1">Let's book it.</h2>
+      <p data-txt="t39" class="sub">Tell Amanda what you need. She replies with dates and a plan.</p>
       <div id="formWrap" style="display:contents">
         <form id="bForm" name="booking" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
           <input type="hidden" name="form-name" value="booking"><p hidden><label>Leave this empty <input name="bot-field"></label></p>
           <input type="hidden" id="bMode" name="mode" value="Day">
           <div class="stylepick" role="group" aria-label="Pick your style"><span class="lbl">Pick your style (tap to preview the whole site)</span>
-            <button type="button" data-style="day" aria-pressed="true"><img src="img/217.jpg" alt=""><span><b>Day</b><small>Brands, studios, shops, clinics</small></span></button>
-            <button type="button" data-style="night" aria-pressed="false"><img src="img/509.jpg" alt=""><span><b>Night</b><small>Concerts, events, parties, fashion</small></span></button>
-            <p class="types" data-d="Day: beauty studios · restaurants · shops · cars · dental · portraits" data-n="Night: concerts · club events · parties · festivals · fashion shows · launches">Day: beauty studios · restaurants · shops · cars · dental · portraits</p>
+            <button type="button" data-style="day" aria-pressed="true"><img data-slot="style-d" src="img/217.jpg" alt=""><span><b>Day</b><small>Brands, studios, shops, clinics</small></span></button>
+            <button type="button" data-style="night" aria-pressed="false"><img data-slot="style-n" src="img/509.jpg" alt=""><span><b>Night</b><small>Concerts, events, parties, fashion</small></span></button>
+            <p data-txt="t40" class="types" data-d="Day: beauty studios · restaurants · shops · cars · dental · portraits" data-n="Night: concerts · club events · parties · festivals · fashion shows · launches">Day: beauty studios · restaurants · shops · cars · dental · portraits</p>
           </div>
           <label for="bName">Name<input id="bName" name="name" autocomplete="name" required></label>
           <label for="bEmail">Email<input id="bEmail" name="email" type="email" autocomplete="email" required></label>
@@ -531,11 +533,11 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
             <option>Free discovery call (30 min)</option></select></label>
           <label for="bDate">Date<input id="bDate" name="date" placeholder="e.g. Nov 14 or early Dec"></label>
           <p class="err" id="bErr" role="alert"></p>
-          <div class="full"><button class="btn" type="submit" id="bSubmit">Check my date</button><button class="btn ghost" type="button" data-call>Free 30-min call</button><span class="mini">Not sure yet? Talk to Amanda first.</span></div>
+          <div class="full"><button class="btn" type="submit" id="bSubmit">Check my date</button><button data-txt="t41" class="btn ghost" type="button" data-call>Free 30-min call</button><span data-txt="t42" class="mini">Not sure yet? Talk to Amanda first.</span></div>
         </form>
       </div>
       <div class="mail"><code id="mail">info@ninetyfifthvisuals.com</code><button class="copy" type="button" data-copy>Copy</button><a class="ph" href="https://instagram.com" target="_blank" rel="noopener">@yourhandle</a></div>
-      <div class="credits">Directed, shot &amp; edited by Amanda "Top Shotta" · © 2026 NINETYFIFTH Visuals · Winnipeg, MB</div>
+      <div data-txt="t43" class="credits">Directed, shot &amp; edited by Amanda "Top Shotta" · © 2026 NINETYFIFTH Visuals · Winnipeg, MB</div>
     </div>
   </section>
 
@@ -758,6 +760,7 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
   }));
   document.querySelectorAll('.menu [data-go]').forEach(b => b.addEventListener('click', () => { closeMenus(); setTimeout(() => document.activeElement && document.activeElement.blur(), 0); }));
   document.addEventListener('click', e => { if (!e.target.closest('.mw')) closeMenus(); });
+  mws.forEach(w => { w.addEventListener('mouseenter', () => mws.forEach(o => { if (o !== w){ o.classList.remove('open'); if (o.contains(document.activeElement)) document.activeElement.blur(); } })); w.addEventListener('mouseleave', () => { if (!w.classList.contains('open') && w.contains(document.activeElement)) document.activeElement.blur(); }); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeMenus(); });
   document.querySelectorAll('[data-style]').forEach(b => b.addEventListener('click', () => { if (mode !== b.dataset.style) setMode(b.dataset.style); }));
 
@@ -914,11 +917,40 @@ body.night .fx .glint{background:conic-gradient(from calc(var(--glint,0deg) - 50
   });
 
   const sb = document.getElementById('studioBtn'); if (sb) sb.hidden = true;
+  fetch('https://dwtgplrqvzpngvwbgckj.supabase.co/rest/v1/site_text?select=key,value', {headers:{apikey:'sb_publishable_hbN4NKVktu2IX0bDab71Fg_kgmNZQYR'}})
+    .then(r => r.ok ? r.json() : []).then(rows => {
+      const m = {}; (rows || []).forEach(r => { m[r.key] = r.value; });
+      const night = document.body.classList.contains('night');
+      document.querySelectorAll('[data-txt]').forEach(el => {
+        const k = el.dataset.txt;
+        if (el.dataset.d !== undefined && el.dataset.n !== undefined){
+          if (m[k + '-d'] != null) el.dataset.d = m[k + '-d']; if (m[k + '-n'] != null) el.dataset.n = m[k + '-n'];
+          el.textContent = el.dataset[night ? 'n' : 'd'];
+        } else if (m[k] != null) el.textContent = m[k];
+      });
+    }).catch(() => {});
+  fetch('https://dwtgplrqvzpngvwbgckj.supabase.co/rest/v1/site_photos?select=slot,url', {headers:{apikey:'sb_publishable_hbN4NKVktu2IX0bDab71Fg_kgmNZQYR'}})
+    .then(r => r.ok ? r.json() : []).then(rows => {
+      const m = {}; (rows || []).forEach(r => { m[r.slot] = r.url; });
+      document.querySelectorAll('img[data-slot]').forEach(im => {
+        const k = im.dataset.slot;
+        if (im.classList.contains('sw')){
+          if (m[k + '-d']) im.dataset.d = m[k + '-d']; if (m[k + '-n']) im.dataset.n = m[k + '-n'];
+          const cur = document.body.classList.contains('night') ? im.dataset.n : im.dataset.d;
+          if (im.getAttribute('src') !== cur) im.src = cur;
+        } else if (m[k]) im.src = m[k];
+      });
+    }).catch(() => {});
   const slPop = document.getElementById('slPop'); let isAmanda = false;
   /* load the saved gallery */
   fetch('gallery.json', {cache:'no-store'}).then(r => r.ok ? r.json() : null).then(d => {
     if (d && d.cats){ GAL = d; Object.keys(CATS).forEach(list); paintCovers(); if (!gal.hidden) renderGal(); }
-  }).catch(() => {});
+  }).catch(() => {}).then(() => fetch('https://dwtgplrqvzpngvwbgckj.supabase.co/rest/v1/gallery_items?select=cat,url,caption,sort,created_at&order=sort.asc,created_at.asc', {headers:{apikey:'sb_publishable_hbN4NKVktu2IX0bDab71Fg_kgmNZQYR'}}))
+    .then(r => r && r.ok ? r.json() : []).then(rows => {
+      const by = {}; (rows || []).forEach(r => { if (CATS[r.cat]) (by[r.cat] = by[r.cat] || []).push({src:r.url, alt:r.caption || CATS[r.cat].t + ' photo by Amanda'}); });
+      Object.entries(by).forEach(([k, a]) => { GAL.cats[k] = a.concat(list(k).filter(x => !a.some(y => y.src === x.src))); });
+      paintCovers(); if (!gal.hidden) renderGal();
+    }).catch(() => {});
   /* Amanda's edit mode: only people with edit access to this site see it */
   (async () => {
     if (!window.claude || !claude.use) return;
